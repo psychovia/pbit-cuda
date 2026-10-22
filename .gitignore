@@ -1,2 +1,8 @@
 # Compiled executables
 executable/
+
+# Nsight Compute reports
+*.ncu-rep
+
+# Local environment installer
+Miniforge3-Linux-x86_64.sh

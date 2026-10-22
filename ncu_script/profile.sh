@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXEC=./rng_playground
+EXEC=./coloring_test
 
 echo "Running Nsight Compute..."
 

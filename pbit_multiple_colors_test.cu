@@ -39,6 +39,39 @@ __global__ void update_pbit(int* m, const float* J, const float* h, curandState*
     m[i] = (value >= 0.0f) ? 1 : -1;
 }
 
+
+std::vector<int> greedy_coloring(const float* J, int n) {
+    std::vector<int> colors(n, -1);
+
+    for (int i = 0; i < n; i++) {
+        std::vector<bool> used(n, false);
+
+        // Check colors of already-colored neighbors
+        for (int j = 0; j < n; j++) {
+            if (i == j) continue;
+
+            if (J[i * n + j] != 0.0f ||
+                J[j * n + i] != 0.0f) {
+                if (colors[j] != -1) {
+                    used[colors[j]] = true;
+                }
+            }
+        }
+
+        // Find the smallest available color
+        int c = 0;
+        while (used[c]) {
+            c++;
+        }
+
+        colors[i] = c;
+    }
+
+    return colors;
+}
+
+
+
 int main() {
     const int n_pbits = 4;
     const int n_colors = 3;
@@ -69,6 +102,7 @@ int main() {
          0,  2,  0, -1,
          1,  0, -1, 0
     };
+    
     float h_h[4] = {1, 1, 1, 0};
     int h_m[4] = {-1, -1, -1, -1};
     int h_color_nodes[4] = {0, 2, 1, 3};
