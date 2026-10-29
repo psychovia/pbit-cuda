@@ -30,9 +30,81 @@ COLORING:
     - random order
     - Jones-Plassman / Luby
 
+## File layout
+
+- `cuda/`: CUDA source files, including `pbit_coloring_benchmark.cu`.
+- `scripts/`: graph preparation, benchmark runners, and plotting scripts.
+- `pbit-graphs/`: existing sparse/dense graph inputs.
+- `executable/`: compiled programs and generated graph headers/binary inputs.
+- `results/`: final spins and images.
+
+Run the commands below from the repository root. `-I .` lets CUDA source files
+find generated headers under `executable/`.
+
 ## Use NumPy graphs without changing the CUDA program structure
 
-`pbit_coloring_benchmark.cu` retains the original kernels, cuGraph branch,
+### Render the 10,000-pbit image circuit
+
+`J_10000.npy` uses zero biases for this experiment. Omit `--h` to create
+zeros, and use `--binary-data` to avoid compiling a 100-million-element text
+array. NumPy is required for preparation; plotting also requires Matplotlib.
+
+```bash
+python scripts/prepare_graph.py --J pbit-graphs/J_10000.npy --binary-data --output executable/graph_10000.h
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . '-DGRAPH_HEADER="executable/graph_10000.h"' -DCOLORING_FUNCTION=largest_degree_first_coloring cuda/pbit_coloring_benchmark.cu -o executable/pbit_ldf_J10000
+mkdir -p results
+./executable/pbit_ldf_J10000 results/J_10000_final_spins.txt
+python scripts/plot_circuit.py results/J_10000_final_spins.txt --shape 100 100 --block-shape 2 2 --output results/J_10000.png
+```
+
+This command uses CPU largest-degree-first (LDF) coloring, without cuGraph.
+The benchmark keeps its existing beta=1, 1,000 sweeps, seed=1234, and initial
+spins=-1. An optional output filename saves only the final spins as text,
+one -1/+1 value per line. No sweep history is exported. The plotting script reads
+this text (or an existing final `.npy` vector) and saves one final PNG.
+The binary input sidecar must remain at the absolute path in the generated header.
+
+For this matrix, placing consecutive groups of four spins into 2×2 pixel blocks
+produces a chessboard image; this layout is inferred from connectivity and the
+rendered result, not supplied metadata.
+Omit `--block-shape` for ordinary row-major pixels. Existing output paths are
+overwritten. A single image/run does not establish ground-state correctness.
+
+### Existing graph benchmarks
+
+To compare fixed beta values with LDF, compile and run one program per beta:
+
+```bash
+output_dir=results/annealing/0.1-0.4
+mkdir -p "$output_dir"
+
+for beta in 0.1 0.2 0.3 0.4; do
+  /usr/local/cuda-13.4/bin/nvcc \
+    -O3 -std=c++17 -I . \
+    '-DGRAPH_HEADER="executable/graph_10000.h"' \
+    -DCOLORING_FUNCTION=largest_degree_first_coloring \
+    -DBETA=${beta}f \
+    cuda/pbit_coloring_benchmark.cu \
+    -o executable/pbit_ldf_J10000_b_${beta}
+
+  ./executable/pbit_ldf_J10000_b_${beta} \
+    "$output_dir/J_10000_b_${beta}_final_spins.txt" \
+    > "$output_dir/J_10000_b_${beta}.log"
+
+  python scripts/plot_circuit.py "$output_dir/J_10000_b_${beta}_final_spins.txt" \
+    --shape 100 100 --block-shape 2 2 \
+    --output "$output_dir/J_10000_b_${beta}_final.png"
+done
+```
+
+For the higher-beta group, set `output_dir=results/annealing/0.5-3.0` and use
+`for beta in 0.5 1.0 1.5 2.0 2.5 3.0; do` in the same loop.
+
+Each run starts again from all-minus-one spins with seed 1234 and holds beta
+constant for 1,000 sweeps. This compares fixed temperatures; it does not ramp
+beta during a single simulation. Omitting `-DBETA` keeps the default beta=1.
+
+`cuda/pbit_coloring_benchmark.cu` retains the original kernels, cuGraph branch,
 color groups, per-color allocations, timing, history copies and state printing.
 Additional CPU algorithms are functions: `largest_degree_first_coloring`,
 `random_coloring`, `smallest_last_coloring`, and `dsatur_coloring`.
@@ -43,14 +115,13 @@ Read `.npy` files in a separate Python script (requires NumPy):
 
 ```bash
 python scripts/prepare_graph.py --J pbit-graphs/J_sparse.npy --h pbit-graphs/h_sparse.npy --output executable/graph_data.h
-nvcc -O3 -std=c++17 '-DGRAPH_HEADER="executable/graph_data.h"' -DCOLORING_FUNCTION=dsatur_coloring pbit_coloring_benchmark.cu -o executable/pbit_coloring_benchmark
+nvcc -O3 -std=c++17 -I . '-DGRAPH_HEADER="executable/graph_data.h"' -DCOLORING_FUNCTION=dsatur_coloring cuda/pbit_coloring_benchmark.cu -o executable/pbit_coloring_benchmark
 ./executable/pbit_coloring_benchmark
 ```
 
 The generated header only supplies `n_pbits`, `h_J`, `h_h`, and `h_m` in place
 of the example arrays. It uses float32 row-major J and all-minus-one spins.
-The script validates dimensions, finite values, float32 range, symmetry and
-zero diagonal. Header files are placed under the ignored `executable/` folder.
+Header files are placed under the ignored `executable/` folder.
 
 An external runner can compile each function and record repeated measurements:
 
@@ -123,7 +194,7 @@ and `sparse`, `dense`. Here `ldf` means largest degree first.
 ```
 
 Each executable embeds its own graph and algorithm at compile time. All share
-the current `NT`, `beta`, kernels and timing code in `pbit_coloring_benchmark.cu`.
+the current `NT`, `beta`, kernels and timing code in `cuda/pbit_coloring_benchmark.cu`.
 After changing the source or input arrays, run `make -j2 all` to rebuild.
 A single version can be rebuilt using its path as the make target, for example
 `make executable/pbit_coloring_dsatur_sparse`.

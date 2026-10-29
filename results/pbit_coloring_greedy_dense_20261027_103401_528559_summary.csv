@@ -1,7 +1,0 @@
-executable,runs,colors,sweeps,metric,mean,stddev,median,min,max
-/home/psychovia/research/cuda-test/executable/pbit_coloring_greedy_dense,10,6,1000,colors,6,0.0,6.0,6,6
-/home/psychovia/research/cuda-test/executable/pbit_coloring_greedy_dense,10,6,1000,coloring_ms,0.2292094,0.023470246626550624,0.2196255,0.213628,0.289429
-/home/psychovia/research/cuda-test/executable/pbit_coloring_greedy_dense,10,6,1000,color_transfer_ms,0.2002114,0.0626041109551832,0.185892,0.087919,0.285248
-/home/psychovia/research/cuda-test/executable/pbit_coloring_greedy_dense,10,6,1000,simulation_ms,93.5205346,15.987895711642892,89.476639,69.663551,121.701378
-/home/psychovia/research/cuda-test/executable/pbit_coloring_greedy_dense,10,6,1000,ms_per_sweep,0.0935207,0.015987692349985278,0.089477,0.069664,0.121701
-/home/psychovia/research/cuda-test/executable/pbit_coloring_greedy_dense,10,6,1000,total_measured_ms,93.94995540000001,15.976337497078049,89.9257035,70.064779,122.175093

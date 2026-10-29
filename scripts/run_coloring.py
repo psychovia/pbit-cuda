@@ -44,7 +44,7 @@ def main():
         executable = build / f"benchmark_{args.graph}_{method}"
         subprocess.run(["nvcc", "-O3", "-std=c++17", f'-DGRAPH_HEADER="{header}"',
                         f"-DCOLORING_FUNCTION={function}",
-                        str(ROOT / "pbit_coloring_benchmark.cu"), "-o", str(executable)], check=True)
+                        str(ROOT / "cuda/pbit_coloring_benchmark.cu"), "-o", str(executable)], check=True)
         executables[method] = executable
     patterns = {
         "colors": r"Number of colors: (\d+)",
