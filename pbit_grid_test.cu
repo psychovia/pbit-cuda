@@ -1,13 +1,23 @@
 // color data structure
 // figure out indx - tid/bid
 // tanh / sigmoid
+
 // rng - true/pseudo? - different libraries?
-// nsight - check performance
+// nsight - check performance - script
+
+// ds for J/h
+
+// COLORING ALGORITHM
+// J/h - color - thread / block
+// optimal color vs automation performance
+    // automate coloring
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <cuda_runtime.h>
 #include <curand_kernel.h>
+
+
 
 __global__ void init_rng(curandState* states, unsigned long seed, int n_pbits) {
     int i = blockIdx.x * blockDim.x + threadIdx.x;

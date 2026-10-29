@@ -1,0 +1,11 @@
+executable,run,colors,sweeps,coloring_ms,color_transfer_ms,simulation_ms,ms_per_sweep,total_measured_ms
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,1,5,1000,2.778023,0.266235,233.463684,0.233464,236.507942
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,2,5,1000,2.153641,0.090969,232.816666,0.232817,235.061276
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,3,5,1000,2.053025,0.097224,234.504089,0.234504,236.654338
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,4,5,1000,2.333038,0.074113,235.77002,0.23577,238.177171
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,5,5,1000,2.183614,0.14519,234.037659,0.234038,236.366463
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,6,5,1000,2.151597,0.210828,234.152634,0.234153,236.515059
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,7,5,1000,2.181497,0.179706,235.772217,0.235772,238.13342
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,8,5,1000,2.226477,0.086264,231.956314,0.231956,234.269055
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,9,5,1000,2.592105,0.101349,237.778137,0.237778,240.471591
+/home/psychovia/research/cuda-test/executable/pbit_coloring_dsatur_sparse,10,5,1000,2.281916,0.246696,234.605789,0.234606,237.134401
