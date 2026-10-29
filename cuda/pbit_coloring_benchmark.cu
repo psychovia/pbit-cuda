@@ -408,7 +408,7 @@ int main(int argc, char** argv) {
     printf("Total measured time: %.6f ms\n", coloring_ms + transfer_ms + simulation_ms);
 
 
-    // Save only the final state for plotting.
+    // save final state for plotting - txt
     if (argc > 1) {
         cudaMemcpy(h_m, d_m, n_pbits * sizeof(int), cudaMemcpyDeviceToHost);
         FILE* output = fopen(argv[1], "w");

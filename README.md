@@ -54,7 +54,7 @@ python scripts/prepare_graph.py --J pbit-graphs/J_10000.npy --binary-data --outp
 /usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . '-DGRAPH_HEADER="executable/graph_10000.h"' -DCOLORING_FUNCTION=largest_degree_first_coloring cuda/pbit_coloring_benchmark.cu -o executable/pbit_ldf_J10000
 mkdir -p results
 ./executable/pbit_ldf_J10000 results/J_10000_final_spins.txt
-python scripts/plot_circuit.py results/J_10000_final_spins.txt --shape 100 100 --block-shape 2 2 --output results/J_10000.png
+python scripts/plot_circuit.py results/J_10000_final_spins.txt --width 50 --height 50 --output results/J_10000.png
 ```
 
 This command uses CPU largest-degree-first (LDF) coloring, without cuGraph.
@@ -67,10 +67,41 @@ The binary input sidecar must remain at the absolute path in the generated heade
 For this matrix, placing consecutive groups of four spins into 2×2 pixel blocks
 produces a chessboard image; this layout is inferred from connectivity and the
 rendered result, not supplied metadata.
-Omit `--block-shape` for ordinary row-major pixels. Existing output paths are
-overwritten. A single image/run does not establish ground-state correctness.
+The plotting script uses the mentor's `indices_to_grid` mapping.
+`--width` and `--height` count 2×2 cells; use `--show` to also display the image.
+Existing output paths are overwritten. A single image/run does not establish ground-state correctness.
 
 ### Existing graph benchmarks
+
+To choose a CPU coloring algorithm and beta yourself, run from the repository root:
+
+```bash
+conda activate pbit-cugraph
+# Install once if missing:
+python -m pip install numpy matplotlib
+
+coloring=largest_degree_first_coloring
+beta=0.3
+run_name=pbit_${coloring}_J10000_b_${beta}
+
+python scripts/prepare_graph.py --J pbit-graphs/J_10000.npy \
+  --binary-data --output executable/graph_10000.h
+
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . \
+  '-DGRAPH_HEADER="executable/graph_10000.h"' \
+  -DCOLORING_FUNCTION=${coloring} -DBETA=${beta}f \
+  cuda/pbit_coloring_benchmark.cu -o "executable/${run_name}"
+
+./executable/${run_name} "results/${run_name}_final_spins.txt"
+
+python scripts/plot_circuit.py "results/${run_name}_final_spins.txt" \
+  --width 50 --height 50 --output "results/${run_name}.png" --show
+```
+
+Supported CPU function names: `greedy_coloring`, `largest_degree_first_coloring`,
+`random_coloring`, `smallest_last_coloring`, and `dsatur_coloring`.
+Preparation is only needed again when the graph inputs change. Recompile after
+changing coloring or beta. Omit `--show` to save without opening a window.
 
 To compare fixed beta values with LDF, compile and run one program per beta:
 
@@ -92,7 +123,7 @@ for beta in 0.1 0.2 0.3 0.4; do
     > "$output_dir/J_10000_b_${beta}.log"
 
   python scripts/plot_circuit.py "$output_dir/J_10000_b_${beta}_final_spins.txt" \
-    --shape 100 100 --block-shape 2 2 \
+    --width 50 --height 50 \
     --output "$output_dir/J_10000_b_${beta}_final.png"
 done
 ```

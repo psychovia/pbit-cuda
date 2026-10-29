@@ -1,59 +1,64 @@
-"""Plot the final CUDA spins as an image (one spin per pixel)."""
+"""Arrange final CUDA spins into 2 x 2 cells using the mentor's pixel mapping."""
 import argparse
 from pathlib import Path
 
 import numpy as np
-import matplotlib
-
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 
 
-def spins_to_image(spins, image_shape, block_shape):
-    """Fill the image block by block, moving left to right, then down."""
-    image_rows, image_cols = image_shape
-    block_rows, block_cols = block_shape
+def indices_to_grid(v, W: int, H: int):
+    """
+    v: vector of length 4 * W * H, ordered cell by cell.
+    W, H: number of 2 x 2 cells across and down.
+    Returns a pixel grid of shape (2 * H, 2 * W).
+    """
+    v = np.asarray(v)
+    assert v.size == 4 * W * H, "Vector length must be 4*W*H"
 
-    image = np.zeros(image_shape, dtype=np.int8)
-    spins_per_block = block_rows * block_cols
-    spin_index = 0
+    grid = np.zeros((2 * H, 2 * W), dtype=v.dtype)
 
-    for row in range(0, image_rows, block_rows):
-        for col in range(0, image_cols, block_cols):
-            # For a 2 x 2 block, the next four spins become two pixel rows.
-            next_index = spin_index + spins_per_block
-            block = spins[spin_index:next_index].reshape(block_rows, block_cols)
-            image[row:row + block_rows, col:col + block_cols] = block
-            spin_index = next_index
+    for i in range(v.size):
+        # Every four consecutive spins belong to one 2 x 2 cell.
+        cell = i // 4
+        local = i % 4
 
-    return image
+        cr, cc = divmod(cell, W)   # Cell row and column.
+        lr, lc = divmod(local, 2)  # Pixel row and column inside the cell.
+
+        # Convert cell coordinates into coordinates in the full image.
+        r = 2 * cr + lr
+        c = 2 * cc + lc
+        grid[r, c] = v[i]
+
+    return grid
 
 
 def main():
+    # W and H count cells, so 50 x 50 cells produce a 100 x 100 image.
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("spins", type=Path)
-    parser.add_argument(
-        "--shape", nargs=2, type=int, default=[100, 100],
-        metavar=("ROWS", "COLS"),
-    )
-    parser.add_argument(
-        "--block-shape", nargs=2, type=int, default=[1, 1],
-        metavar=("ROWS", "COLS"),
-        help="Consecutive spins fill a block; blocks run left to right, then down",
-    )
+    parser.add_argument("--width", type=int, default=50)
+    parser.add_argument("--height", type=int, default=50)
     parser.add_argument("--output", type=Path, default=Path("results/circuit.png"))
+    parser.add_argument("--show", action="store_true", help="Also display the image")
     args = parser.parse_args()
 
-    # Read final spins in their original circuit order.
-    if args.spins.suffix == ".npy":
-        spins = np.load(args.spins)
-    else:
-        spins = np.loadtxt(args.spins, dtype=np.int8)
 
-    image = spins_to_image(spins, args.shape, args.block_shape)
+    if args.spins.suffix == ".npy":
+        final_state = np.load(args.spins)
+    else:
+        final_state = np.loadtxt(args.spins, dtype=np.int8)
+
+    img = indices_to_grid(final_state, args.width, args.height)
+
+    # -1 - black / +1 - white.
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    plt.imsave(args.output, image, cmap="gray", vmin=-1, vmax=1)
+    plt.imsave(args.output, img, cmap="gray", vmin=-1, vmax=1)
     print(f"Final image: {args.output}")
+
+    if args.show:
+        plt.imshow(img, cmap="gray", vmin=-1, vmax=1)
+        plt.show()
 
 
 if __name__ == "__main__":
