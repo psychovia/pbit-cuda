@@ -1,65 +1,93 @@
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <vector>
 #include <cuda_runtime.h>
 #include <curand_kernel.h>
 
-__global__ void init_rng(curandState* states, unsigned long seed, int n_pbits) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
+#include "simulation_config.h"
 
-    if (i < n_pbits) {
-        curand_init(seed, i, 0, &states[i]);
+
+// Initialize RNG for each p-bit
+__device__ void init_rng(curandState* state, unsigned long seed, int i) {
+    curand_init(seed, i, 0, state);
+}
+
+
+// Update all p-bits across all sweeps on the GPU
+__global__ void update_pbit(int* m, const float* J, const float* h,
+                            const int* colors, const float* beta) {
+
+    int i = threadIdx.x;
+
+    curandState state;
+    init_rng(&state, SEED, i);
+
+    __syncthreads();
+
+    // All iterations run on GPU
+    for (int t = 0; t < NT; t++) {
+
+        // Update each color group
+        for (int c = 0; c < N_COLORS; c++) {
+
+            int new_m = 0;
+
+            if (colors[i] == c) {
+
+                float I = h[i];
+
+                for (int j = 0; j < N_PBITS; j++) {
+                    I += J[i * N_PBITS + j] * m[j];
+                }
+
+                // Original p-bit update equation
+                float r = curand_uniform(&state);
+
+                float value = tanhf(beta[t] * I)
+                            - (1.0f - 2.0f * r);
+
+                new_m = (value >= 0.0f) ? 1 : -1;
+            }
+
+            // All threads finish reading before updating
+            __syncthreads();
+
+            if (colors[i] == c) {
+                m[i] = new_m;
+            }
+
+            // Finish this color before next color
+            __syncthreads();
+        }
     }
 }
 
 
-__global__ void update_pbit(int* m, const float* J, const float* h, curandState* states,
-                                const int* color_nodes, int n_nodes_in_color,
-                                int n_pbits, float beta) {
-
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-
-    if (tid >= n_nodes_in_color) {
-        return;
-    }
-
-    int i = color_nodes[tid];
-
-    float I = h[i];
-
-    for (int j = 0; j < n_pbits; j++) {
-        I += J[i * n_pbits + j] * m[j];
-    }
-
-    // range = (0, 1]
-    float r = curand_uniform(&states[i]);
-
-    
-    float value = tanhf(beta * I) - (1.0f - 2.0f * r); // (0, -1] -> (-1, 1]
-
-    // sign
-    m[i] = (value >= 0.0f) ? 1 : -1;
-}
-
-
+// Original greedy coloring function
 std::vector<int> greedy_coloring(const float* J, int n) {
+
     std::vector<int> colors(n, -1);
 
     for (int i = 0; i < n; i++) {
+
         std::vector<bool> used(n, false);
 
-        // Check colors of already-colored neighbors
         for (int j = 0; j < n; j++) {
+
             if (i == j) continue;
 
             if (J[i * n + j] != 0.0f ||
                 J[j * n + i] != 0.0f) {
+
                 if (colors[j] != -1) {
                     used[colors[j]] = true;
                 }
             }
         }
 
-        // Find the smallest available color
         int c = 0;
+
         while (used[c]) {
             c++;
         }
@@ -70,115 +98,87 @@ std::vector<int> greedy_coloring(const float* J, int n) {
     return colors;
 }
 
-
-
 int main() {
-    const int n_pbits = 4;
-    const int n_colors = 3;
-    const float beta = 1.0f;
-    int NT = 10;
 
-    // host - cpu / device = gpu
-    
-    // data in host
+    // Values supplied through Makefile-generated header
+    const int n_pbits = N_PBITS;
+    const int n_colors = N_COLORS;
 
-    // // AND gate
-    // float h_J[9] = {
-    //      0, -1,  2,
-    //     -1,  0,  2,
-    //      2,  2,  0
-    // };
-    // float h_h[3] = {1, 1, -2};
-    // int h_m[3] = {-1, -1, -1};
-    // int n_colors = 1;
+    // Host data
+    const float* h_J = HOST_J;
+    const float* h_h = HOST_H;
+    const int* h_m = HOST_M;
 
-    // 1 - 2
-    //   /
-    // 3 - 4
-
-    float h_J[16] = {
-         0, -1,  0, 1,
-        -1,  0,  2, 0,
-         0,  2,  0, -1,
-         1,  0, -1, 0
-    };
-    
-    float h_h[4] = {1, 1, 1, 0};
-    int h_m[4] = {-1, -1, -1, -1};
-    int h_color_nodes[4] = {0, 2, 1, 3};
-    int color_offsets[3] = {0, 1, 2};
-    int color_sizes[3] = {1, 1, 2}; // number of nodes in each color
-
-    // device pointers
+    // Device pointers
     float* d_J;
     float* d_h;
-    int* d_m;
-    int* d_color_nodes;
-    int* d_history; // store all states seen so far, print together by the end
-    curandState* d_states;
+    float* d_beta;
 
-    // alloc gpu memory
+    int* d_m;
+    int* d_colors;
+
+    // Check GPU block size
+    cudaDeviceProp prop;
+    cudaGetDeviceProperties(&prop, 0);
+
+    if (n_pbits > prop.maxThreadsPerBlock) {
+        printf("Too many p-bits for one GPU block\n");
+        return 1;
+    }
+
+    // Allocate GPU memory
     cudaMalloc(&d_J, n_pbits * n_pbits * sizeof(float));
     cudaMalloc(&d_h, n_pbits * sizeof(float));
     cudaMalloc(&d_m, n_pbits * sizeof(int));
-    cudaMalloc(&d_states, n_pbits * sizeof(curandState));
-    cudaMalloc(&d_color_nodes, n_pbits * sizeof(int));
-    cudaMalloc(&d_history, NT * n_pbits * sizeof(int));
+    cudaMalloc(&d_colors, n_pbits * sizeof(int));
+    cudaMalloc(&d_beta, NT * sizeof(float));
 
-    // copy host -> device
-    cudaMemcpy(d_J, h_J, n_pbits * n_pbits * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_h, h_h, n_pbits * sizeof(float), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_m, h_m, n_pbits * sizeof(int), cudaMemcpyHostToDevice);
-    cudaMemcpy(d_color_nodes, h_color_nodes, n_pbits * sizeof(int), cudaMemcpyHostToDevice);
+    // Copy host -> device
+    cudaMemcpy(d_J, h_J,
+               n_pbits * n_pbits * sizeof(float),
+               cudaMemcpyHostToDevice);
 
-    // initialize rng with seed
-    init_rng<<<1, 3>>>(d_states, 1234, n_pbits);
+    cudaMemcpy(d_h, h_h,
+               n_pbits * sizeof(float),
+               cudaMemcpyHostToDevice);
 
-    cudaDeviceSynchronize();
+    cudaMemcpy(d_m, h_m,
+               n_pbits * sizeof(int),
+               cudaMemcpyHostToDevice);
 
-    for (int i = 0; i < NT; i++) { // num of states
-        for (int j = 0; j < n_colors; j++) { // within each state, update each pbit in each color
-            int n_nodes_in_color = color_sizes[j]; // # of nodes in current color
-            update_pbit<<<1, n_nodes_in_color>>>(d_m, d_J, d_h, d_states,
-                                               d_color_nodes + color_offsets[j],
-                                               n_nodes_in_color, n_pbits, beta);
-        }
-        // add current state to history
-        cudaMemcpyAsync(d_history + i * n_pbits, d_m, n_pbits * sizeof(int), cudaMemcpyDeviceToDevice);
+    cudaMemcpy(d_colors, HOST_COLORS,
+               n_pbits * sizeof(int),
+               cudaMemcpyHostToDevice);
+
+    cudaMemcpy(d_beta, HOST_BETA,
+               NT * sizeof(float),
+               cudaMemcpyHostToDevice);
+
+    // One GPU kernel launch for all iterations
+    update_pbit<<<1, n_pbits>>>(
+        d_m, d_J, d_h, d_colors, d_beta
+    );
+
+
+    // Copy final states to CPU only once
+    std::vector<int> final_m(n_pbits);
+
+    cudaMemcpy(final_m.data(), d_m,
+               n_pbits * sizeof(int),
+               cudaMemcpyDeviceToHost);
+
+    // Print final states
+    for (int i = 0; i < n_pbits; i++) {
+        printf("%d%s", final_m[i],
+               i == n_pbits - 1 ? "\n" : " ");
     }
 
-    // copy result back GPU -> CPU
-
-    // cudaMemcpy(h_m, d_m, 3 * sizeof(int), cudaMemcpyDeviceToHost);
-    // printf("m = [%d, %d, %d]\n", h_m[0], h_m[1], h_m[2]);
-
-    cudaDeviceSynchronize();
-
-    int* h_history = (int*)malloc(NT * n_pbits * sizeof(int));
-
-    cudaMemcpy(h_history, d_history, NT * n_pbits * sizeof(int), cudaMemcpyDeviceToHost);
-
-    for (int ii = 0; ii < NT; ii++) {
-        printf("state %d: [", ii);
-
-        for (int jj = 0; jj < n_pbits; jj++) {
-            printf("%d", h_history[ii * n_pbits + jj]);
-            if (jj != n_pbits - 1) {
-                printf(", ");
-            }
-        }
-
-        printf("]\n");
-    }
-
-    free(h_history);
-
+    // Free GPU memory
     cudaFree(d_J);
     cudaFree(d_h);
     cudaFree(d_m);
-    cudaFree(d_states);
-    cudaFree(d_color_nodes);
-    cudaFree(d_history);
+    cudaFree(d_colors);
+    cudaFree(d_beta);
 
     return 0;
 }
