@@ -1,0 +1,63 @@
+{
+  "configurations": [
+    {
+      "configuration": "T8",
+      "capture_success": true,
+      "profiled_kernels": 1,
+      "replay_passes": 23,
+      "color_index": 0,
+      "nodes_in_color": 2500,
+      "grid": 313,
+      "block": 8,
+      "summary_warnings": [
+        "sfu_utilization_pct"
+      ],
+      "history_matches_unprofiled": true
+    },
+    {
+      "configuration": "T128",
+      "capture_success": true,
+      "profiled_kernels": 1,
+      "replay_passes": 23,
+      "color_index": 0,
+      "nodes_in_color": 2500,
+      "grid": 20,
+      "block": 128,
+      "summary_warnings": [
+        "sfu_utilization_pct"
+      ],
+      "history_matches_unprofiled": true
+    },
+    {
+      "configuration": "W64",
+      "capture_success": true,
+      "profiled_kernels": 1,
+      "replay_passes": 23,
+      "color_index": 0,
+      "nodes_in_color": 2500,
+      "grid": 1250,
+      "block": 64,
+      "summary_warnings": [
+        "sfu_utilization_pct"
+      ],
+      "history_matches_unprofiled": true
+    },
+    {
+      "configuration": "W256",
+      "capture_success": true,
+      "profiled_kernels": 1,
+      "replay_passes": 23,
+      "color_index": 0,
+      "nodes_in_color": 2500,
+      "grid": 313,
+      "block": 256,
+      "summary_warnings": [
+        "achieved_occupancy_pct",
+        "active_warps_per_sm",
+        "sfu_utilization_pct"
+      ],
+      "history_matches_unprofiled": true
+    }
+  ],
+  "previous_benchmark_csv_hashes_unchanged": true
+}

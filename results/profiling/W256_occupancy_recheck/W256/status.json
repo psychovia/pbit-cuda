@@ -1,0 +1,16 @@
+{
+  "configuration": "W256",
+  "success": true,
+  "metrics_complete": true,
+  "trajectory_matches_unprofiled": true,
+  "full_history_sha256": "8daeaa6ce245638e3f8c58e6980c74dbf5ddaa111c2a56cc927509b4f5adcc2c",
+  "missing_required_metrics": [],
+  "unavailable_fields": [
+    "sfu_utilization_pct"
+  ],
+  "metric_set": "occupancy",
+  "intentionally_not_collected": "Compute/memory/spill/stall metrics omitted to reduce replay; their empty summary fields do not mean they are unsupported.",
+  "metric_quality_warnings": [
+    "Raw .max occupancy-related metrics remain out of range; the average metrics are within bounds."
+  ]
+}

@@ -18,14 +18,13 @@ def indices_to_grid(v, W: int, H: int):
     grid = np.zeros((2 * H, 2 * W), dtype=v.dtype)
 
     for i in range(v.size):
-        # Every four consecutive spins belong to one 2 x 2 cell.
         cell = i // 4
         local = i % 4
 
         cr, cc = divmod(cell, W)   # Cell row and column.
         lr, lc = divmod(local, 2)  # Pixel row and column inside the cell.
 
-        # Convert cell coordinates into coordinates in the full image.
+        # convert cell coordinates into coordinates in the full image.
         r = 2 * cr + lr
         c = 2 * cc + lc
         grid[r, c] = v[i]

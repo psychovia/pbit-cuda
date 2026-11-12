@@ -1,0 +1,50 @@
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = cuda/pbit_execution_benchmark.cu 
+
+symbols:
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = cuda/pbit_execution_benchmark.cu
+
+symbols:
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    precalc_xorwow_matrix
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    precalc_xorwow_offset_matrix
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    mrg32k3aM1
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    mrg32k3aM2
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    mrg32k3aM1SubSeq
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    mrg32k3aM2SubSeq
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    mrg32k3aM1Seq
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    mrg32k3aM2Seq
+STT_OBJECT       STB_LOCAL  STV_DEFAULT    __cr_lgamma_table
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+STT_OBJECT       STB_WEAK   STV_DEFAULT  U .nv.reservedSmem.offset0
+STT_NOTYPE       STB_WEAK   STO_RESERVED_SHARED   __nv_reservedSMEM_offset_0_alias
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z18init_execution_rngP17curandStateXORWOWmi
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+STT_FUNC         STB_GLOBAL STO_ENTRY      _Z8init_rngP17curandStateXORWOWmi
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = cuda/pbit_execution_benchmark.cu
+ptxasOptions = -v  --generate-line-info 

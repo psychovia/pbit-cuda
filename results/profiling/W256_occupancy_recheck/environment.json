@@ -1,0 +1,26 @@
+{
+  "ld_library_path": "/usr/lib/wsl/lib:/usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39:/usr/local/cuda-13.4/lib64:/usr/local/cuda-13.4/lib64:",
+  "ld_preload": "",
+  "cuInit_status": 0,
+  "loaded_libraries": [
+    "78c8f947e000-78c8f9799000 r--p 00000000 00:24 115123265474725745         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libnvidia-ptxjitcompiler.so.1",
+    "78c8f9799000-78c8fb434000 r-xp 0031b000 00:24 115123265474725745         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libnvidia-ptxjitcompiler.so.1",
+    "78c8fb434000-78c8fbd3f000 r--p 01fb6000 00:24 115123265474725745         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libnvidia-ptxjitcompiler.so.1",
+    "78c8fbd3f000-78c8fbfea000 r--p 028c0000 00:24 115123265474725745         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libnvidia-ptxjitcompiler.so.1",
+    "78c8fbfea000-78c8fbffb000 rw-p 02b6b000 00:24 115123265474725745         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libnvidia-ptxjitcompiler.so.1",
+    "78cb08049000-78cb081eb000 r--p 00000000 00:24 120471290032226807         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libcuda.so.1.1",
+    "78cb081eb000-78cb0938a000 r-xp 001a2000 00:24 120471290032226807         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libcuda.so.1.1",
+    "78cb0938a000-78cb099b0000 r--p 01341000 00:24 120471290032226807         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libcuda.so.1.1",
+    "78cb099b0000-78cb099b1000 ---p 01967000 00:24 120471290032226807         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libcuda.so.1.1",
+    "78cb099b1000-78cb09b2e000 r--p 01967000 00:24 120471290032226807         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libcuda.so.1.1",
+    "78cb09b2e000-78cb09b32000 rw-p 01ae4000 00:24 120471290032226807         /usr/lib/wsl/drivers/nvami.inf_amd64_b259952749ea1a39/libcuda.so.1.1",
+    "78cbda4bc000-78cbda4cc000 r--p 00000000 00:39 48976645947720267          /usr/lib/wsl/lib/libcuda.so.1",
+    "78cbda4cc000-78cbda4e3000 r-xp 00010000 00:39 48976645947720267          /usr/lib/wsl/lib/libcuda.so.1",
+    "78cbda4e3000-78cbda4e8000 r--p 00027000 00:39 48976645947720267          /usr/lib/wsl/lib/libcuda.so.1",
+    "78cbda4e8000-78cbda4e9000 r--p 0002b000 00:39 48976645947720267          /usr/lib/wsl/lib/libcuda.so.1",
+    "78cbda4e9000-78cbda4eb000 rw-p 0002c000 00:39 48976645947720267          /usr/lib/wsl/lib/libcuda.so.1"
+  ],
+  "ncu": "ncu",
+  "discovery": "/home/psychovia/research/cuda-test/results/profiling/discovery",
+  "binary_sha256": "1d62cd5208139eb35993caa428d7250b5fee058af998f4f1241d681856aeecdb"
+}

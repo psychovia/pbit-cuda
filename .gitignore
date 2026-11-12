@@ -6,3 +6,4 @@ executable/
 
 # Local environment installer
 Miniforge3-Linux-x86_64.sh
+/results/profiling/discovery/metrics_all.txt

@@ -48,3 +48,45 @@ executable/dense: executable/pbit_coloring_cugraph_dense
 	cp $< $@
 
 .PRECIOUS: executable/graph_%.h
+
+EXEC_ARCH ?= sm_120
+EXEC_FLAGS = -arch=$(EXEC_ARCH) -lineinfo -Xptxas=-v
+
+# Runtime-configurable CPU-coloring execution benchmark; legacy targets unchanged.
+.PHONY: execution-benchmark
+execution-benchmark: executable/pbit_execution_benchmark
+executable/pbit_execution_benchmark: cuda/pbit_execution_benchmark.cu cuda/pbit_coloring_benchmark.cu Makefile
+	@mkdir -p executable
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) $< -o $@
+
+# Separate binaries for options that change generated device code.
+EXEC_DEPS = cuda/pbit_execution_benchmark.cu cuda/pbit_execution_kernels.cuh cuda/pbit_coloring_benchmark.cu Makefile
+executable/pbit_execution_benchmark: cuda/pbit_execution_kernels.cuh
+
+.PHONY: execution-variants
+execution-variants: execution-benchmark executable/pbit_execution_fast \
+ $(foreach cap,32 48 64 96,executable/pbit_execution_reg$(cap)) \
+ executable/pbit_execution_philox executable/pbit_execution_mrg32k3a
+
+executable/pbit_execution_fast: $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) --use_fast_math '-DEXEC_MATH="fast"' $< -o $@
+
+executable/pbit_execution_reg%: $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) --maxrregcount=$* -DEXEC_REGISTER_CAP=$* $< -o $@
+
+executable/pbit_execution_philox: $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) -DEXEC_RNG=1 $< -o $@
+
+executable/pbit_execution_mrg32k3a: $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) -DEXEC_RNG=2 $< -o $@
+
+.PHONY: execution-probes
+execution-probes: executable/pbit_probe executable/pbit_probe_fast executable/pbit_probe_philox executable/pbit_probe_mrg32k3a
+executable/pbit_probe: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) $< -o $@
+executable/pbit_probe_fast: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) --use_fast_math $< -o $@
+executable/pbit_probe_philox: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) -DEXEC_RNG=1 $< -o $@
+executable/pbit_probe_mrg32k3a: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) -DEXEC_RNG=2 $< -o $@

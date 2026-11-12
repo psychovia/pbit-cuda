@@ -1,0 +1,117 @@
+Device NVIDIA GeForce RTX 5060 Laptop GPU (GB206)
+--------------------------------------------------------------------------- --------------- --------------- ----------------------------------------------------------------------
+Metric Name                                                                 Metric Type     Metric Unit     Metric Description                                                    
+--------------------------------------------------------------------------- --------------- --------------- ----------------------------------------------------------------------
+branch_inst_executed                                                        Counter         branches        Number of unique branch targets assigned to the instruction,          
+                                                                                                            including both divergent and uniform branches.                        
+derived__avg_thread_executed                                                Counter         thread          Average number of thread-level executed instructions per warp         
+                                                                                                            (regardless of their predicate). Computed as: thread_inst_executed /  
+                                                                                                            inst_executed                                                         
+derived__avg_thread_executed_true                                           Counter         thread          Average number of predicated-on thread-level executed instructions    
+                                                                                                            per warp. Computed as: thread_inst_executed_true / inst_executed      
+derived__derivative_avg_thread_executed_true                                Counter         thread          Derivative of the derived__avg_thread_executed_true metric.           
+                                                                                                            Difference between the current and the previous address in average    
+                                                                                                            number of predicated-on thread-level executed instructions per warp.  
+derived__local_spilling_requests                                            Counter                         Number of executed instructions and requests made to L1 for register  
+                                                                                                            spilling to local memory.                                             
+derived__local_spilling_requests_pct                                        Throughput      %               Percentage of total local memory requests to L1 that are due to       
+                                                                                                            register spilling.                                                    
+derived__memory_l1_conflicts_shared_nway                                    Counter                         Average N-way conflict in L1 per shared memory instruction. A 1-way   
+                                                                                                            access has no conflicts and resolves in a single pass. Computed as:   
+                                                                                                            memory_l1_wavefronts_shared / inst_executed                           
+derived__memory_l1_wavefronts_shared_excessive                              Counter                         Excessive number of wavefronts in L1 from shared memory instructions, 
+                                                                                                            because not all not predicated-off threads performed the operation.   
+derived__memory_l2_theoretical_sectors_global_excessive                     Counter         byte            Excessive theoretical number of sectors requested in L2 from global   
+                                                                                                            memory instructions, because not all not predicated-off threads       
+                                                                                                            performed the operation.                                              
+derived__shared_spilling_requests                                           Counter                         Number of executed instructions and requests made to shared memory    
+                                                                                                            for register spilling.                                                
+derived__shared_spilling_requests_pct                                       Throughput      %               Percentage of total requests to shared memory that are due to         
+                                                                                                            register spilling.                                                    
+inst_executed                                                               Counter         inst            Number of warp-level executed instructions, ignoring instruction      
+                                                                                                            predicates. Warp-level means the values increased by one per          
+                                                                                                            individual warp executing the instruction, independent of the number  
+                                                                                                            of participating threads within each warp.                            
+memory_access_size_type                                                     Counter                         The size of the memory access, in bits.                               
+memory_access_type                                                          Counter                         The type of memory access (e.g. load or store).                       
+memory_l1_tag_requests_global                                               Counter         sectors         Number of L1 tag requests generated by global memory instructions.    
+memory_l1_wavefronts_shared                                                 Counter         sectors         Number of wavefronts in L1 from shared memory instructions.           
+memory_l1_wavefronts_shared_ideal                                           Counter         sectors         Ideal number of wavefronts in L1 from shared memory instructions,     
+                                                                                                            assuming each not predicated-off thread performed the operation.      
+memory_l2_theoretical_sectors_global                                        Counter         sectors         Theoretical number of sectors requested in L2 from global memory      
+                                                                                                            instructions.                                                         
+memory_l2_theoretical_sectors_global_ideal                                  Counter         sectors         Ideal number of sectors requested in L2 from global memory            
+                                                                                                            instructions, assuming each not predicated-off thread performed the   
+                                                                                                            operation.                                                            
+memory_l2_theoretical_sectors_local                                         Counter         sectors         Theoretical number of sectors requested in L2 from local memory       
+                                                                                                            instructions.                                                         
+memory_type                                                                 Counter                         The accessed address space (global/local/shared).                     
+sass__inst_executed_global_loads                                            Counter         inst            Number of global memory load instructions executed.                   
+sass__inst_executed_global_stores                                           Counter         inst            Number of global memory store instructions executed.                  
+sass__inst_executed_local_loads                                             Counter         inst            Number of local memory load instructions executed.                    
+sass__inst_executed_local_stores                                            Counter         inst            Number of local memory store instructions executed.                   
+sass__inst_executed_per_opcode                                              Counter                         Number of warp-level executed instructions, instanced by basic SASS   
+                                                                                                            opcode.                                                               
+sass__inst_executed_per_opcode_category                                     Counter                         Number of warp-level executed instructions, instanced by SASS opcode  
+                                                                                                            category.                                                             
+sass__inst_executed_per_opcode_pipeline                                     Counter                         Estimated number of warp-level executed instructions, instanced by    
+                                                                                                            SASS opcode pipeline. Some instructions can execute in one of         
+                                                                                                            multiple pipelines, and the dynamic assignment is not taken into      
+                                                                                                            account here.                                                         
+sass__inst_executed_per_opcode_with_modifier_all                            Counter                         Number of warp-level executed instructions, instanced by all SASS     
+                                                                                                            opcode modifiers.                                                     
+sass__inst_executed_per_opcode_with_modifier_selective                      Counter                         Number of warp-level executed instructions, instanced by selective    
+                                                                                                            SASS opcode modifiers.                                                
+sass__inst_executed_register_spilling                                       Counter         inst            Number of store and load instructions executed as a result of         
+                                                                                                            register spilling.                                                    
+sass__inst_executed_register_spilling_mem_local                             Counter         byte            Number of store and load instructions executed as a result of         
+                                                                                                            register spilling to local memory.                                    
+sass__inst_executed_register_spilling_mem_shared                            Counter         byte            Number of store and load instructions executed as a result of         
+                                                                                                            register spilling to shared memory.                                   
+sass__inst_executed_register_spilling_op_read                               Counter         inst            Number of register read instructions executed as a result of register 
+                                                                                                            spilling.                                                             
+sass__inst_executed_register_spilling_op_write                              Counter         inst            Number of register write instructions executed as a result of         
+                                                                                                            register spilling.                                                    
+sass__inst_executed_shared_loads                                            Counter         inst            Number of shared memory load instructions executed.                   
+sass__inst_executed_shared_stores                                           Counter         inst            Number of shared memory store instructions executed.                  
+sass__size                                                                  Counter         byte            Total size in bytes of all SASS instructions.                         
+sass__size_inst_executed                                                    Counter         byte            Total size in bytes of executed SASS instructions.                    
+sass__size_thread_inst_executed_true                                        Counter         byte            Total size in bytes of executed SASS thread instructions with         
+                                                                                                            predicate true.                                                       
+sass__thread_inst_executed_per_opcode_category                              Counter                         Number of thread-level executed instructions, instanced by SASS       
+                                                                                                            opcode category.                                                      
+sass__thread_inst_executed_per_opcode_pipeline                              Counter                         Estimated number of thread-level executed instructions, instanced by  
+                                                                                                            SASS opcode pipeline. Some instructions can execute in one of         
+                                                                                                            multiple pipelines, and the dynamic assignment is not taken into      
+                                                                                                            account here.                                                         
+sass__thread_inst_executed_true_per_opcode                                  Counter                         Number of thread-level executed instructions, instanced by basic SASS 
+                                                                                                            opcode.                                                               
+sass__thread_inst_executed_true_per_opcode_with_modifier_all                Counter                         Number of thread-level executed instructions, instanced by all SASS   
+                                                                                                            opcode modifiers.                                                     
+sass__thread_inst_executed_true_per_opcode_with_modifier_selective          Counter                         Number of thread-level executed instructions, instanced by selective  
+                                                                                                            SASS opcode modifiers.                                                
+smsp__branch_targets_threads_divergent                                      Counter         branches        Number of divergent branch targets, including fallthrough.            
+                                                                                                            Incremented only when there are two or more active threads with       
+                                                                                                            divergent targets.                                                    
+smsp__branch_targets_threads_uniform                                        Counter         branches        Number of uniform branch execution, including fallthrough, where all  
+                                                                                                            active threads selected the same branch target.                       
+smsp__pcsamp_sample_count                                                   Counter                         Number of collected warp state samples per program counter. This      
+                                                                                                            metric is collected using warp sampling.                              
+smsp__sass_inst_executed_memdesc_explicit_evict_type                        Counter                         L2 cache eviction policy types.                                       
+smsp__sass_inst_executed_memdesc_explicit_hitprop_evict_first               Counter         inst            Number of warp-level executed instructions with L2 cache eviction hit 
+                                                                                                            property 'first'.                                                     
+smsp__sass_inst_executed_memdesc_explicit_hitprop_evict_last                Counter         inst            Number of warp-level executed instructions with L2 cache eviction hit 
+                                                                                                            property 'last'.                                                      
+smsp__sass_inst_executed_memdesc_explicit_hitprop_evict_normal              Counter         inst            Number of warp-level executed instructions with L2 cache eviction hit 
+                                                                                                            property 'normal'.                                                    
+smsp__sass_inst_executed_memdesc_explicit_hitprop_evict_normal_demote       Counter         inst            Number of warp-level executed instructions with L2 cache eviction hit 
+                                                                                                            property 'normal demote'.                                             
+smsp__sass_inst_executed_memdesc_explicit_missprop_evict_first              Counter         inst            Number of warp-level executed instructions with L2 cache eviction     
+                                                                                                            miss property 'first'.                                                
+smsp__sass_inst_executed_memdesc_explicit_missprop_evict_normal             Counter         inst            Number of warp-level executed instructions with L2 cache eviction     
+                                                                                                            miss property 'normal'.                                               
+thread_inst_executed                                                        Counter         inst            Number of thread-level executed instructions, regardless of predicate 
+                                                                                                            presence or evaluation.                                               
+thread_inst_executed_true                                                   Counter         inst            Number of thread-level executed instructions, where the instruction   
+                                                                                                            predicate evaluated to true, or no predicate was given.               
+

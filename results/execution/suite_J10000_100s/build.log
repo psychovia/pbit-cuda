@@ -1,0 +1,964 @@
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v --use_fast_math '-DEXEC_MATH="fast"' cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_fast
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_benchmark
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 19.065 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.586 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.195 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.696 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.086 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.914 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 8.259 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 5.650 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 9.913 ms
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 19.780 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 8.822 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.641 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.373 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.269 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.169 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 7.118 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 5.181 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 7.150 ms
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v --maxrregcount=32 -DEXEC_REGISTER_CAP=32 cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_reg32
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v --maxrregcount=48 -DEXEC_REGISTER_CAP=48 cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_reg48
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z18init_execution_rngP17curandStateXORWOWmi' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z8init_rngP17curandStateXORWOWmi' with  32 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z18init_execution_rngP17curandStateXORWOWmi' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' with  48 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z8init_rngP17curandStateXORWOWmi' with  48 of maxrregcount option
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 31 registers, used 0 barriers
+ptxas info    : Compile time = 10.932 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 31 registers, used 0 barriers
+ptxas info    : Compile time = 5.795 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 31 registers, used 0 barriers
+ptxas info    : Compile time = 6.022 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 32 registers, used 0 barriers
+ptxas info    : Compile time = 8.800 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 32 registers, used 0 barriers
+ptxas info    : Compile time = 7.605 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 32 registers, used 0 barriers
+ptxas info    : Compile time = 5.957 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 32 registers, used 0 barriers
+ptxas info    : Compile time = 7.203 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 31 registers, used 0 barriers
+ptxas info    : Compile time = 5.189 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 32 registers, used 0 barriers
+ptxas info    : Compile time = 7.560 ms
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 46 registers, used 0 barriers
+ptxas info    : Compile time = 8.898 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 46 registers, used 0 barriers
+ptxas info    : Compile time = 5.444 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 46 registers, used 0 barriers
+ptxas info    : Compile time = 5.800 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 46 registers, used 0 barriers
+ptxas info    : Compile time = 7.163 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 11.053 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 46 registers, used 0 barriers
+ptxas info    : Compile time = 7.774 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 6.581 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 44 registers, used 0 barriers
+ptxas info    : Compile time = 4.685 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 6.497 ms
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v --maxrregcount=64 -DEXEC_REGISTER_CAP=64 cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_reg64
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v --maxrregcount=96 -DEXEC_REGISTER_CAP=96 cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_reg96
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z18init_execution_rngP17curandStateXORWOWmi' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' with  64 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z8init_rngP17curandStateXORWOWmi' with  64 of maxrregcount option
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 10.910 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 6.059 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 5.544 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 50 registers, used 0 barriers
+ptxas info    : Compile time = 6.233 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 55 registers, used 0 barriers
+ptxas info    : Compile time = 6.234 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 50 registers, used 0 barriers
+ptxas info    : Compile time = 9.722 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers
+ptxas info    : Compile time = 10.351 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 44 registers, used 0 barriers
+ptxas info    : Compile time = 6.009 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers
+ptxas info    : Compile time = 7.787 ms
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z18init_execution_rngP17curandStateXORWOWmi' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' with  96 of maxrregcount option
+ptxas info    : Overriding maximum register limit 256 for '_Z8init_rngP17curandStateXORWOWmi' with  96 of maxrregcount option
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 10.320 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 5.893 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 48 registers, used 0 barriers
+ptxas info    : Compile time = 5.487 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 50 registers, used 0 barriers
+ptxas info    : Compile time = 6.236 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 55 registers, used 0 barriers
+ptxas info    : Compile time = 6.171 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 50 registers, used 0 barriers
+ptxas info    : Compile time = 6.285 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers
+ptxas info    : Compile time = 7.345 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 44 registers, used 0 barriers
+ptxas info    : Compile time = 5.374 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 56 registers, used 0 barriers
+ptxas info    : Compile time = 7.547 ms
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v -DEXEC_RNG=1 cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_philox
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v -DEXEC_RNG=2 cuda/pbit_execution_benchmark.cu -o executable/pbit_execution_mrg32k3a
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+cuda/pbit_execution_benchmark.cu(53): warning #1650-D: result of call is not used
+      fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_benchmark.cu(54): warning #1650-D: result of call is not used
+      fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      ^
+
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 13.864 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 9.049 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 8.891 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 7.618 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 8.126 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 8.536 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP24curandStatePhilox4_32_10mi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP24curandStatePhilox4_32_10mi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 26 registers, used 0 barriers
+ptxas info    : Compile time = 2.001 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 5.834 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.912 ms
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 9.812 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.000 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.647 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.304 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.402 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.397 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP19curandStateMRG32k3ami' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP19curandStateMRG32k3ami
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 84 registers, used 0 barriers
+ptxas info    : Compile time = 259.661 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 5.225 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.355 ms
+cuda/pbit_execution_benchmark.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_benchmark.cu:53:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   53 |     fread(h_J, sizeof(float), graph_J.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_benchmark.cu:54:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   54 |     fread(h_h, sizeof(float), graph_h.size(), graph_file);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v cuda/pbit_execution_probe.cu -o executable/pbit_probe
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v --use_fast_math cuda/pbit_execution_probe.cu -o executable/pbit_probe_fast
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z18probe_distributionPKfP17curandStateXORWOWPfii' for 'sm_120'
+ptxas info    : Function properties for _Z18probe_distributionPKfP17curandStateXORWOWPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 36 registers, used 0 barriers
+ptxas info    : Compile time = 19.983 ms
+ptxas info    : Compiling entry function '_Z12probe_fieldsPKfS0_PKiPfi' for 'sm_120'
+ptxas info    : Function properties for _Z12probe_fieldsPKfS0_PKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 8.149 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.090 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 4.955 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.080 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.451 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.583 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.367 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.832 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 5.151 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.283 ms
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+cuda/pbit_execution_probe.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_probe.cu:35:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   35 |     fread(J.data(), sizeof(float), J.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_probe.cu:36:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   36 |     fread(h.data(), sizeof(float), h.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z18probe_distributionPKfP17curandStateXORWOWPfii' for 'sm_120'
+ptxas info    : Function properties for _Z18probe_distributionPKfP17curandStateXORWOWPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 29 registers, used 0 barriers
+ptxas info    : Compile time = 9.234 ms
+ptxas info    : Compiling entry function '_Z12probe_fieldsPKfS0_PKiPfi' for 'sm_120'
+ptxas info    : Function properties for _Z12probe_fieldsPKfS0_PKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 9.088 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.209 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.396 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.063 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.041 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 5.602 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.637 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 9.340 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 8.838 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 7.153 ms
+cuda/pbit_execution_probe.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_probe.cu:35:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   35 |     fread(J.data(), sizeof(float), J.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_probe.cu:36:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   36 |     fread(h.data(), sizeof(float), h.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v -DEXEC_RNG=1 cuda/pbit_execution_probe.cu -o executable/pbit_probe_philox
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+/usr/local/cuda-13.4/bin/nvcc -O3 -std=c++17 -I . -arch=sm_120 -lineinfo -Xptxas=-v -DEXEC_RNG=2 cuda/pbit_execution_probe.cu -o executable/pbit_probe_mrg32k3a
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+cuda/pbit_execution_probe.cu(35): warning #1650-D: result of call is not used
+      fread(J.data(), sizeof(float), J.size(), input);
+      ^
+
+Remark: The warnings can be suppressed with "-diag-suppress <warning-number>"
+
+cuda/pbit_execution_probe.cu(36): warning #1650-D: result of call is not used
+      fread(h.data(), sizeof(float), h.size(), input);
+      ^
+
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z18probe_distributionPKfP24curandStatePhilox4_32_10Pfii' for 'sm_120'
+ptxas info    : Function properties for _Z18probe_distributionPKfP24curandStatePhilox4_32_10Pfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 22 registers, used 0 barriers
+ptxas info    : Compile time = 11.501 ms
+ptxas info    : Compiling entry function '_Z12probe_fieldsPKfS0_PKiPfi' for 'sm_120'
+ptxas info    : Function properties for _Z12probe_fieldsPKfS0_PKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 9.336 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 7.969 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 7.868 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 8.761 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 15.635 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 14.134 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P24curandStatePhilox4_32_10PKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 7.502 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP24curandStatePhilox4_32_10mi' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP24curandStatePhilox4_32_10mi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 26 registers, used 0 barriers
+ptxas info    : Compile time = 1.766 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 5.112 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 7.343 ms
+cuda/pbit_execution_probe.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_probe.cu:35:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   35 |     fread(J.data(), sizeof(float), J.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_probe.cu:36:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   36 |     fread(h.data(), sizeof(float), h.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ptxas info    : 218048 bytes gmem
+ptxas info    : Compiling entry function '_Z18probe_distributionPKfP19curandStateMRG32k3aPfii' for 'sm_120'
+ptxas info    : Function properties for _Z18probe_distributionPKfP19curandStateMRG32k3aPfii
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 30 registers, used 0 barriers
+ptxas info    : Compile time = 15.531 ms
+ptxas info    : Compiling entry function '_Z12probe_fieldsPKfS0_PKiPfi' for 'sm_120'
+ptxas info    : Function properties for _Z12probe_fieldsPKfS0_PKiPfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 12.293 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.767 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.754 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 5.863 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.490 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.815 ms
+ptxas info    : Compiling entry function '_Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P19curandStateMRG32k3aPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 38 registers, used 0 barriers
+ptxas info    : Compile time = 6.785 ms
+ptxas info    : Compiling entry function '_Z18init_execution_rngP19curandStateMRG32k3ami' for 'sm_120'
+ptxas info    : Function properties for _Z18init_execution_rngP19curandStateMRG32k3ami
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 84 registers, used 0 barriers
+ptxas info    : Compile time = 287.550 ms
+ptxas info    : Compiling entry function '_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif' for 'sm_120'
+ptxas info    : Function properties for _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 39 registers, used 0 barriers
+ptxas info    : Compile time = 5.374 ms
+ptxas info    : Compiling entry function '_Z8init_rngP17curandStateXORWOWmi' for 'sm_120'
+ptxas info    : Function properties for _Z8init_rngP17curandStateXORWOWmi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 40 registers, used 0 barriers
+ptxas info    : Compile time = 6.921 ms
+cuda/pbit_execution_probe.cu: In function ‘int main(int, char**)’:
+cuda/pbit_execution_probe.cu:35:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   35 |     fread(J.data(), sizeof(float), J.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+cuda/pbit_execution_probe.cu:36:6: warning: ignoring return value of ‘size_t fread(void*, size_t, size_t, FILE*)’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+   36 |     fread(h.data(), sizeof(float), h.size(), input);
+      |     ~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

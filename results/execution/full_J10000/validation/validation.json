@@ -1,0 +1,534 @@
+{
+  "binaries": {
+    "pbit_execution_benchmark": "7bd04db1ce4fad605d0cfcaf82ce536e1ed09cc44c168ce74a50cd1ad42723aa",
+    "pbit_execution_fast": "586d8f07ad7587a943e70c7702f1b330ba368ce343454801e9c3173bf469dcb7",
+    "pbit_execution_reg32": "fa853a9645b506af6f06a4f91eee121a6745a8e4d84bb8fd5ab25ec5a6c3c8ab",
+    "pbit_execution_reg48": "39f5593b70b8e6caae37121c44c96765a858fd8b81b75fc61d35753d0b7ead44",
+    "pbit_execution_reg64": "e70a324693978bf55448560eb088081df60eabd19c09e72aee201c1e6e6c91f7",
+    "pbit_execution_reg96": "44139d5eda628b1deea43fcaac133794eff9df0fc1881caf8eb3bf7813fc75de",
+    "pbit_execution_philox": "05daeab16845d50567bfcaa331b10eb385bd08aef1df1656f3cc7e03208ef164",
+    "pbit_execution_mrg32k3a": "94199cec612bea81a56c395b5380e02ab0fdc208d74d8189aff4113105d9bf00"
+  },
+  "experiments": {
+    "A1": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    },
+    "A2": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    },
+    "A3": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    },
+    "A4": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    },
+    "A5": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    },
+    "B1": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    },
+    "B2": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    },
+    "B3": {
+      "passed": true,
+      "scope": "external preflight; small existing dataset slices and short full J10000 runs; not per measurement"
+    }
+  },
+  "checks": [
+    {
+      "check": "sparse thread=8",
+      "passed": true
+    },
+    {
+      "check": "sparse thread=16",
+      "passed": true
+    },
+    {
+      "check": "sparse thread=32",
+      "passed": true
+    },
+    {
+      "check": "sparse thread=64",
+      "passed": true
+    },
+    {
+      "check": "sparse thread=128",
+      "passed": true
+    },
+    {
+      "check": "sparse thread=256",
+      "passed": true
+    },
+    {
+      "check": "sparse thread=512",
+      "passed": true
+    },
+    {
+      "check": "sparse thread=1024",
+      "passed": true
+    },
+    {
+      "check": "sparse launch=normal history=on final",
+      "passed": true
+    },
+    {
+      "check": "sparse graph trajectory",
+      "passed": true
+    },
+    {
+      "check": "sparse launch=normal history=off final",
+      "passed": true
+    },
+    {
+      "check": "sparse launch=graph history=on final",
+      "passed": true
+    },
+    {
+      "check": "sparse graph trajectory",
+      "passed": true
+    },
+    {
+      "check": "sparse launch=graph history=off final",
+      "passed": true
+    },
+    {
+      "check": "sparse cap=32",
+      "passed": true
+    },
+    {
+      "check": "sparse cap=48",
+      "passed": true
+    },
+    {
+      "check": "sparse cap=64",
+      "passed": true
+    },
+    {
+      "check": "sparse cap=96",
+      "passed": true
+    },
+    {
+      "check": "sparse cache=ldg",
+      "passed": true
+    },
+    {
+      "check": "sparse cache=cg",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark deterministic",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_benchmark graph",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast deterministic",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_fast graph",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox deterministic",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_philox graph",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a deterministic",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_execution_mrg32k3a graph",
+      "passed": true
+    },
+    {
+      "check": "sparse pbit_probe local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.014092933549952003
+    },
+    {
+      "check": "sparse pbit_probe_fast local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.014092933549952003
+    },
+    {
+      "check": "sparse pbit_probe_philox local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.01956055981247795
+    },
+    {
+      "check": "sparse pbit_probe_mrg32k3a local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.016778480424952003
+    },
+    {
+      "check": "10000 thread=8",
+      "passed": true
+    },
+    {
+      "check": "10000 thread=16",
+      "passed": true
+    },
+    {
+      "check": "10000 thread=32",
+      "passed": true
+    },
+    {
+      "check": "10000 thread=64",
+      "passed": true
+    },
+    {
+      "check": "10000 thread=128",
+      "passed": true
+    },
+    {
+      "check": "10000 thread=256",
+      "passed": true
+    },
+    {
+      "check": "10000 thread=512",
+      "passed": true
+    },
+    {
+      "check": "10000 thread=1024",
+      "passed": true
+    },
+    {
+      "check": "10000 launch=normal history=on final",
+      "passed": true
+    },
+    {
+      "check": "10000 graph trajectory",
+      "passed": true
+    },
+    {
+      "check": "10000 launch=normal history=off final",
+      "passed": true
+    },
+    {
+      "check": "10000 launch=graph history=on final",
+      "passed": true
+    },
+    {
+      "check": "10000 graph trajectory",
+      "passed": true
+    },
+    {
+      "check": "10000 launch=graph history=off final",
+      "passed": true
+    },
+    {
+      "check": "10000 cap=32",
+      "passed": true
+    },
+    {
+      "check": "10000 cap=48",
+      "passed": true
+    },
+    {
+      "check": "10000 cap=64",
+      "passed": true
+    },
+    {
+      "check": "10000 cap=96",
+      "passed": true
+    },
+    {
+      "check": "10000 cache=ldg",
+      "passed": true
+    },
+    {
+      "check": "10000 cache=cg",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark deterministic",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_benchmark graph",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast deterministic",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_fast graph",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox deterministic",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_philox graph",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a deterministic",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a warp tpb=32",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a warp tpb=64",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a warp tpb=128",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a warp tpb=256",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a warp tpb=512",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a warp tpb=1024",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_execution_mrg32k3a graph",
+      "passed": true
+    },
+    {
+      "check": "10000 pbit_probe local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.015351549562522104
+    },
+    {
+      "check": "10000 pbit_probe_fast local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.015351549562522104
+    },
+    {
+      "check": "10000 pbit_probe_philox local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.014715660200047997
+    },
+    {
+      "check": "10000 pbit_probe_mrg32k3a local fields and 8192-sample Bernoulli probabilities",
+      "passed": true,
+      "max_field_absolute_error": 0.0,
+      "max_probability_error": 0.014921887937477896
+    },
+    {
+      "check": "full J10000 pbit_execution_benchmark mapping=32 launch=normal cache=default",
+      "passed": true
+    },
+    {
+      "check": "full J10000 pbit_execution_benchmark mapping=1 launch=graph cache=default",
+      "passed": true
+    },
+    {
+      "check": "full J10000 pbit_execution_benchmark mapping=1 launch=normal cache=ldg",
+      "passed": true
+    },
+    {
+      "check": "full J10000 pbit_execution_benchmark mapping=1 launch=normal cache=cg",
+      "passed": true
+    },
+    {
+      "check": "full J10000 pbit_execution_fast mapping=1 launch=normal cache=default",
+      "passed": true
+    }
+  ],
+  "process_runs": 116,
+  "statistical_test": "8192 samples/spin; abs error <= 6*binomial_SE + 0.002; beta=0.1; independent per-pbit RNG indexing"
+}

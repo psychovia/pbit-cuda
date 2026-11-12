@@ -1,0 +1,44 @@
+[
+  {
+    "experiment": "A1",
+    "configurations": 8,
+    "raw_rows": 104,
+    "aggregate_rows": 40,
+    "passed": true
+  },
+  {
+    "experiment": "A2",
+    "configurations": 16,
+    "raw_rows": 208,
+    "aggregate_rows": 80,
+    "passed": true
+  },
+  {
+    "experiment": "A3",
+    "configurations": 16,
+    "raw_rows": 208,
+    "aggregate_rows": 80,
+    "passed": true
+  },
+  {
+    "experiment": "A4",
+    "configurations": 16,
+    "raw_rows": 208,
+    "aggregate_rows": 80,
+    "passed": true
+  },
+  {
+    "experiment": "A5",
+    "configurations": 40,
+    "raw_rows": 520,
+    "aggregate_rows": 200,
+    "passed": true
+  },
+  {
+    "experiment": "B1",
+    "configurations": 14,
+    "raw_rows": 182,
+    "aggregate_rows": 70,
+    "passed": true
+  }
+]

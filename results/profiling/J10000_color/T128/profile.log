@@ -1,0 +1,6 @@
+==WARNING== Note: Running with unmodified GPU clocks. If not controlled otherwise, profiling results may be inconsistent.
+==PROF== Connected to process 38978 (/home/psychovia/research/cuda-test/executable/pbit_execution_benchmark)
+==PROF== Profiling "_Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif": 0%....50%....100% - 23 passes
+{"num_pbits":10000,"num_colors":4,"coloring_ms":200.647457000,"transfer_ms":49.151341000,"simulation_ms":1042.594116211,"time_per_sweep_ms":10.425941467,"graph_setup_ms":0.000000000,"math_mode":"default","rng_algorithm":"xorwow","register_cap":0}
+==PROF== Disconnected from process 38978
+==PROF== Report: /home/psychovia/research/cuda-test/results/profiling/J10000_color/T128/profile.ncu-repz

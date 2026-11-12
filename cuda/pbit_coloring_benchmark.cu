@@ -366,7 +366,7 @@ int main(int argc, char** argv) {
 
 
     // num of threads & blocks
-    const int threads = 256;
+    const int threads = 64;
     int blocks = (n_pbits + threads - 1) / threads;
     init_rng<<<blocks, threads>>>(d_states, 1234, n_pbits);
 

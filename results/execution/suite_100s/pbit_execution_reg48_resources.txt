@@ -1,0 +1,52 @@
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = cuda/pbit_execution_benchmark.cu 
+
+Resource usage:
+ Common:
+  GLOBAL:0
+
+Fatbin elf code:
+================
+arch = sm_120
+code version = [1,8]
+host = linux
+compile_size = 64bit
+identifier = cuda/pbit_execution_benchmark.cu
+
+Resource usage:
+ Common:
+  GLOBAL:218048 CONSTANT[4]:64 CONSTANT[3]:72
+ Function _Z21update_pbit_executionILi1ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif:
+  REG:46 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:948 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21update_pbit_executionILi1ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif:
+  REG:46 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:948 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21update_pbit_executionILi1ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif:
+  REG:46 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:948 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21update_pbit_executionILi32ELi0EEvPiPKfS2_P17curandStateXORWOWPKiiif:
+  REG:46 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:948 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21update_pbit_executionILi32ELi2EEvPiPKfS2_P17curandStateXORWOWPKiiif:
+  REG:48 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:948 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z21update_pbit_executionILi32ELi1EEvPiPKfS2_P17curandStateXORWOWPKiiif:
+  REG:46 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:948 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z18init_execution_rngP17curandStateXORWOWmi:
+  REG:48 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:916 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z11update_pbitPiPKfS1_P17curandStateXORWOWPKiiif:
+  REG:44 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:948 TEXTURE:0 SURFACE:0 SAMPLER:0
+ Function _Z8init_rngP17curandStateXORWOWmi:
+  REG:48 STACK:0 SHARED:0 LOCAL:0 CONSTANT[0]:916 TEXTURE:0 SURFACE:0 SAMPLER:0
+
+Fatbin ptx code:
+================
+arch = sm_120
+code version = [9,4]
+host = linux
+compile_size = 64bit
+compressed
+identifier = cuda/pbit_execution_benchmark.cu
+ptxasOptions = -v  -maxrregcount=48 --generate-line-info 

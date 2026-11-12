@@ -1,0 +1,10 @@
+{
+  "configuration": "T128",
+  "success": true,
+  "trajectory_matches_unprofiled": true,
+  "full_history_sha256": "8daeaa6ce245638e3f8c58e6980c74dbf5ddaa111c2a56cc927509b4f5adcc2c",
+  "missing_required_metrics": [],
+  "unavailable_fields": [
+    "sfu_utilization_pct"
+  ]
+}

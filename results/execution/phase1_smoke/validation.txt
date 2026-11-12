@@ -1,0 +1,6 @@
+A2 sparse: 32/64 threads x history on/off, warmup=1 repeats=2 sweeps=2: all 12 runs passed.
+A1 sparse/dense: 64 threads history off, repeats=1 sweeps=2: passed.
+Legacy/new sparse LDF beta=1 seed=1234 initial=-1 sweeps=1000: final 1188 spins exactly equal.
+Aggregated means independently recomputed from measurement rows: passed.
+Short smoke timings are not performance conclusions.
+Nsight: first 10 update kernels collected, 5 replay passes each; report and CSV exported successfully. Timing under profiler excluded from benchmark CSV.

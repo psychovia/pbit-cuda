@@ -1,0 +1,9 @@
+experiment,dataset,coloring_algorithm,num_pbits,num_colors,threads_per_block,rng_threads_per_block,threads_per_spin,launch_mode,history_mode,math_mode,rng_algorithm,register_cap,sweeps,beta,seed,runs,metric,mean,median,std,min,max,correctness_passed
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_sparse.npy,ldf,1188,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,coloring_ms,0.569658,0.569658,0,0.569658,0.569658,True
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_sparse.npy,ldf,1188,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,transfer_ms,1.306731,1.306731,0,1.306731,1.306731,True
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_sparse.npy,ldf,1188,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,simulation_ms,0.357888013,0.357888013,0,0.357888013,0.357888013,True
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_sparse.npy,ldf,1188,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,time_per_sweep_ms,0.178944007,0.178944007,0,0.178944007,0.178944007,True
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_dense.npy,ldf,444,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,coloring_ms,0.128489,0.128489,0,0.128489,0.128489,True
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_dense.npy,ldf,444,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,transfer_ms,0.318255,0.318255,0,0.318255,0.318255,True
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_dense.npy,ldf,444,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,simulation_ms,0.153183997,0.153183997,0,0.153183997,0.153183997,True
+A1,/home/psychovia/research/cuda-test/pbit-graphs/J_dense.npy,ldf,444,5,64,128,1,normal,off,default,xorwow,,2,1.0,1234,1,time_per_sweep_ms,0.076591998,0.076591998,0,0.076591998,0.076591998,True

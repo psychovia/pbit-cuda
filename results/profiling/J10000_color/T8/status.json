@@ -1,0 +1,10 @@
+{
+  "configuration": "T8",
+  "success": true,
+  "trajectory_matches_unprofiled": true,
+  "replay_validation_evidence": "The full-history SHA256 comparison returned equal before the first export failed on an unsupported CLI option. Transient history files were removed; no digest retained for this first profile.",
+  "missing_required_metrics": [],
+  "unavailable_fields": [
+    "sfu_utilization_pct"
+  ]
+}

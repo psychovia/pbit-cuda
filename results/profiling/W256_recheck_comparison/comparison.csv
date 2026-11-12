@@ -1,0 +1,4 @@
+run,configuration,metric_set,color_index,nodes_in_color,grid_size,block_size,sweep_index,replay_passes,achieved_occupancy_pct_raw,active_warps_per_sm_raw,warps_active_max_pct_raw,warps_active_max_per_cycle_raw,device_max_warps_per_sm,average_within_physical_range,kernel_duration_us,full_history_matches_unprofiled,report
+original_full,W256,full,0,2500,313,256,2,23,105.93,50.85,110.95,53.26,48,False,291.008,True,/home/psychovia/research/cuda-test/results/profiling/J10000_color/W256/profile.ncu-rep
+occupancy_only,W256,occupancy,0,2500,313,256,2,3,95.96,46.06,100.46,48.22,48,True,285.344,True,/home/psychovia/research/cuda-test/results/profiling/W256_occupancy_recheck/W256/profile.ncu-rep
+standalone_full,W256,full,0,2500,313,256,2,23,99.64,47.83,105.17,50.48,48,True,289.92,True,/home/psychovia/research/cuda-test/results/profiling/W256_full_recheck/W256/profile.ncu-rep

@@ -1,0 +1,5 @@
+configuration,capture_status,metric_status,profiled_kernels,color_index,grid,block,unavailable_or_invalid
+T8,success,SFU unavailable,1,0,313,8,sfu_utilization_pct
+T128,success,SFU unavailable,1,0,20,128,sfu_utilization_pct
+W64,success,SFU unavailable,1,0,1250,64,sfu_utilization_pct
+W256,success,warning,1,0,313,256,achieved_occupancy_pct;active_warps_per_sm;sfu_utilization_pct
