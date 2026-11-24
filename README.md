@@ -123,23 +123,25 @@ make executable/pbit_coloring_ldf_sparse
 python scripts/benchmark_runs.py executable/pbit_coloring_ldf_sparse --repeats 10
 ```
 
-## GPU execution benchmark：第一阶段 A1 / A2
+## GPU execution benchmark: phase 1 (A1 / A2)
 
-保留旧 simulator 和旧 runner，新增 `cuda/test_benchmark/pbit_execution_benchmark.cu`，直接复用
-原有 `init_rng`、`update_pbit` 和 CPU coloring 函数。dense row-major float32 J/h
-及按 color 串行启动的 colored-Gibbs 顺序不变。暂不使用 cuGraph。
+The old simulator and runner are kept. `cuda/test_benchmark/pbit_execution_benchmark.cu`
+is a new entry point that reuses the existing `init_rng`, `update_pbit` and CPU coloring
+functions. Dense row-major float32 J/h and the colored-Gibbs order (one launch per
+color, in sequence) are unchanged. cuGraph is not used yet.
 
 ```bash
-conda activate pbit-cugraph  # Python 需要 numpy
+conda activate pbit-cugraph  # Python needs numpy
 make execution-benchmark
 
-# 小规模验证：4 个配置，每配置 1 warmup + 2 measured runs
+# Small smoke test: 4 configurations, 1 warmup + 2 measured runs each
 python scripts/benchmark_execution.py --experiment A2 --datasets sparse \
   --threads 32 64 --sweeps 2 --warmup 1 --repeats 2 \
   --csv results/execution/smoke.csv
 ```
 
-以下是完整实验命令，需自行决定何时运行（默认每配置 warmup 3 次、正式 10 次）：
+Full experiment commands (run when you choose; default is 3 warmup and 10 measured
+runs per configuration):
 
 ```bash
 python scripts/benchmark_execution.py --experiment A1 \
@@ -150,79 +152,87 @@ python scripts/benchmark_execution.py --experiment A2 \
   --sweeps 1000 --coloring ldf --csv results/execution/A2.csv
 ```
 
-`--datasets` 接受名称（对应 `pbit-graphs/J_<name>.npy`）或 J 的 `.npy` 路径。
-自动使用同目录的 `h_<name>.npy`；不存在时用零 bias，与现有 preparation 行为一致。
-单 dataset 可指定 `--h path/to/h.npy`。runner 将输入转换为与现有 binary loader
-相同的 J 后接 h 的 float32 文件，不改变 graph representation，不需要按 dataset 编译。
-支持 `--coloring ldf|greedy|random|smallest_last|dsatur`、`--rng-threads 128`、
-`--beta 1.0`、`--seed 1234`。初始 spins 固定全 -1。
-A1 默认 history on，可用 `--history off`；A2 总是测量 on 和 off。
-每一次运行均重新创建 process、加载数据、coloring 和重置 RNG。
+`--datasets` accepts names (mapping to `pbit-graphs/J_<name>.npy`) or a path to a J `.npy`.
+`h_<name>.npy` in the same directory is used automatically; if it does not exist, biases
+are zero, matching the existing preparation behavior. For a single dataset, `--h path/to/h.npy`
+can be given. The runner converts inputs to the same float32 "J followed by h" file the
+existing binary loader reads, so the graph representation is unchanged and no per-dataset
+compile is needed.
+Also supported: `--coloring ldf|greedy|random|smallest_last|dsatur`, `--rng-threads 128`,
+`--beta 1.0`, `--seed 1234`. Initial spins are always all -1.
+A1 records history by default (`--history off` disables it); A2 always measures both on and off.
+Every run starts a new process and reloads the data, recomputes the coloring and resets the RNG.
 
-计时定义：
+Timing definitions:
 
-- `coloring_ms`：CPU coloring 函数耗时，不含输入文件读取。
-- `transfer_ms`：J/h/初始 spins/color nodes 的 H2D copy 和完成同步的 CPU wall time；
-  不含分配、RNG 初始化、最终结果的 D2H。
-- `simulation_ms`：同一 CUDA stream 上 CUDA events 包围所有 sweep；结束 event 同步后读取。
-  history on 包含每 sweep D2D history copy；off 不录制。
-  包含实际 launch 提交间隙，RNG 初始化在 start event 前同步完成。
-- `time_per_sweep_ms = simulation_ms / sweeps`，为主要性能指标。
+- `coloring_ms`: time spent in the CPU coloring function, excluding input file reads.
+- `transfer_ms`: CPU wall time of the H2D copies of J/h/initial spins/color nodes plus the
+  synchronization that completes them; excludes allocation, RNG initialization and the final D2H.
+- `simulation_ms`: CUDA events on one stream bracket all sweeps and are read after synchronizing
+  on the end event. With history on, it includes the per-sweep D2D history copy; with history off,
+  nothing is recorded. It includes real gaps between launch submissions. RNG initialization
+  finishes and is synchronized before the start event.
+- `time_per_sweep_ms = simulation_ms / sweeps` is the main performance metric.
 
-每次实际运行（含 warmup）写一行 raw CSV；`phase=warmup|measurement`，
-`run_id` 在各 phase 内从 1 起。额外记录 RNG block size、beta、seed。
-`*_aggregated.csv` 只聚合 measurement，按完整配置、metric 输出 mean、median、
-样本 std（单次为 0）、min、max。输出路径已存在时拒绝覆盖。
-可在 Google Sheets 中过滤 phase 或 metric 后 pivot；不要把 warmup 纳入统计。
+Each actual run (including warmup) writes one raw CSV row; `phase=warmup|measurement`, and
+`run_id` starts at 1 within each phase. RNG block size, beta and seed are also recorded.
+`*_aggregated.csv` aggregates measurement runs only, grouped by full configuration and metric,
+with mean, median, sample std (0 for a single run), min and max. The runner refuses to overwrite
+an existing output path.
+In Google Sheets, filter on phase or metric and then pivot; do not include warmup in statistics.
 
-当前入口按原有 CUDA 文件的顺序结构编写，暂不包含防御性检查和 correctness replay。
-未提供 `--validation` 时，CSV 的 `correctness_passed` 留空；独立预验证用法见下方。
-history off 不分配 history 内存。
+The current entry point follows the sequential structure of the original CUDA files and does not
+yet include defensive checks or correctness replay.
+Without `--validation`, the CSV column `correctness_passed` is left empty; see below for
+standalone pre-validation. With history off, no history memory is allocated.
 
-### 独立 Nsight Compute profiling
+### Standalone Nsight Compute profiling
 
 ```bash
-# 只查询本机支持项，不运行 simulation；目录必须不存在
+# Only query what this machine supports; does not run a simulation. Directory must not exist.
 python ncu_script/profile_execution.py --output results/profiling/query
 
-# 示例：先用现有工具准备相同 binary sidecar
+# Example: first prepare the same binary sidecar with the existing tool
 python scripts/prepare_graph.py --J pbit-graphs/J_sparse.npy \
   --h pbit-graphs/h_sparse.npy --binary-data --output executable/profile_sparse.h
-# sparse 的 n 为 1188；其他 dataset 请使用 preparation 输出的 n
+# n for sparse is 1188; for other datasets use the n printed by preparation
 python ncu_script/profile_execution.py --output results/profiling/sparse64 -- \
   ./executable/pbit_execution_benchmark --data executable/profile_sparse.bin \
   --n 1188 --threads 64 --rng-threads 128 --sweeps 2 --coloring ldf --history off
 ```
 
-脚本先保存 `query.txt` 和 `availability.csv`，只选择本机 ncu 明确返回的指标；
-未匹配的项目标记 unavailable。local-memory sectors 作为 spill 流量代理，不能直接
-当作编译器 spill 数量。profile 保存 `.ncu-rep` 和导出的 raw `profile.csv`，
-最多抓前 10 次 update kernel。
-profiling 会扰动计时，其结果不应写入常规 benchmark CSV。
+The script first saves `query.txt` and `availability.csv`, and selects only metrics that the
+local ncu explicitly reports; unmatched items are marked unavailable. Local-memory sectors are a
+proxy for spill traffic and must not be read as the compiler's spill count. Profiling saves a
+`.ncu-rep` and an exported raw `profile.csv`, capturing at most the first 10 update kernels.
+Profiling perturbs timing, so its results should not go into the regular benchmark CSVs.
 
-A3–B3 的后续实现和独立验证见下方扩展说明。carveout、多 streams、
-two-warps-per-spin、fusion 保留为 future work。
+The later A3–B3 implementation and standalone validation are described below. Carveout, multiple
+streams, two-warps-per-spin and fusion remain future work.
 
-此前带 correctness replay 版本的验证记录及 CSV：`results/execution/phase1_smoke/`；
-这些是历史记录，不代表当前简化入口每次运行执行了验证。
-新版本 ncu 若默认输出 `.ncu-repz`，profiling 脚本使用 `zstd` 解压为 `.ncu-rep` 后导出 CSV。
+Validation records and CSVs from the earlier version with correctness replay are in
+`results/execution/phase1_smoke/`. They are historical and do not mean the current simplified
+entry point validates on every run.
+If a newer ncu writes `.ncu-repz` by default, the profiling script decompresses it to `.ncu-rep`
+with `zstd` before exporting CSV.
 
-## A1–A5 / B1 扩展与短实验
+## A1–A5 / B1 extensions and short experiments
 
-`cuda/pbit_kernels.cuh`（原 `pbit_execution_kernels.cuh`）保留原 one-thread kernel，并提供 warp-per-spin：
-32 lanes 按 j=lane, lane+32, ... 累加 J row，shuffle reduction 后仅 lane 0 更新
-该 p-bit 的 RNG state 和 spin。threads/block 必须是 32 的倍数；8/16 的 warp 配置跳过。
-所有 color 仍在单个 stream 上依次执行，没有并发 streams 或 kernel fusion。
+`cuda/pbit_kernels.cuh` (formerly `pbit_execution_kernels.cuh`) keeps the original one-thread
+kernel and adds warp-per-spin: 32 lanes accumulate the J row over j = lane, lane+32, ...,
+and after a shuffle reduction only lane 0 updates that p-bit's RNG state and spin.
+Threads/block must be a multiple of 32; warp configurations with 8/16 are skipped.
+All colors still run in sequence on a single stream, with no concurrent streams or kernel fusion.
 
 ```bash
-# 本机 RTX 5060：原生 sm_120，避免默认 sm_75/PTX JIT 干扰编译期实验
+# Local RTX 5060: native sm_120, so default sm_75/PTX JIT does not affect compile-time experiments
 make -j2 execution-variants execution-probes
-# 其他 GPU 请覆盖 EXEC_ARCH，例如 EXEC_ARCH=sm_89
+# For other GPUs override EXEC_ARCH, e.g. EXEC_ARCH=sm_89
 
-# 独立验证，不添加到 simulator 的每次执行路径
+# Standalone validation, not added to the simulator's per-run path
 python scripts/validate_execution.py --output results/execution/preflight
 
-# 当前短实验：B2/B3 暂不跑
+# Current short experiments: B2/B3 not run yet
 python scripts/benchmark_suite.py --experiments A1 A2 A3 A4 A5 B1 \
   --datasets 10000 sparse dense --threads 8 16 32 64 128 256 512 1024 \
   --sweeps 100 --warmup 3 --repeats 10 \
@@ -230,37 +240,44 @@ python scripts/benchmark_suite.py --experiments A1 A2 A3 A4 A5 B1 \
   --output results/execution/short_suite
 ```
 
-也可单独运行 `benchmark_execution.py --experiment A3|A4|A5|B1`，其他参数与 A1/A2 相同。
-每项逐个改变一个变量，其余默认：history on、normal launch、one-thread/spin、
-XORWOW、default math、无 register cap、默认 J load。不是所有优化的交叉组合。
+`benchmark_execution.py --experiment A3|A4|A5|B1` can also be run on its own, with the same
+other arguments as A1/A2. Each experiment changes one variable at a time; everything else stays
+at the default: history on, normal launch, one thread per spin, XORWOW, default math, no register
+cap, default J load. This is not a cross product of all optimizations.
 
-- A3：normal / graph。捕获完整 NT sweeps，capture/instantiate/upload 不计入 simulation；
-  `graph_setup_ms` 单独记录。两种模式使用相同单 stream 和原 color 顺序。
-- A4：default / `--use_fast_math`，各自 executable。
-- A5：无 cap / `--maxrregcount=32/48/64/96`。cap 是上限，不是实际使用量；
-  高于默认使用量时可以生成相同 kernel。实际 registers/local memory 见资源报告。
-- B1：1 / 32 threads per spin。grid 按 spins/block=threads/block÷threads/spin 计算。
-- B2/B3：已提供 XORWOW/Philox/MRG32k3a、J default/`__ldg`/`__ldcg` 变体，
-  当前用户要求暂不跑正式实验。后续用 `--experiment B2|B3`，分别支持 `--rngs` / `--caches`。
+- A3: normal / graph launch. The full NT sweeps are captured; capture/instantiate/upload are not
+  counted in simulation time, and `graph_setup_ms` is recorded separately. Both modes use the same
+  single stream and original color order.
+- A4: default / `--use_fast_math`, each as its own executable.
+- A5: no cap / `--maxrregcount=32/48/64/96`. The cap is an upper limit, not actual usage; if it is
+  above the default usage, the same kernel may be generated. See the resource report for actual
+  registers/local memory.
+- B1: 1 / 32 threads per spin. The grid is sized by spins/block = threads/block ÷ threads/spin.
+- B2/B3: XORWOW/Philox/MRG32k3a and J default/`__ldg`/`__ldcg` variants are provided, but formal
+  experiments are on hold for now. Later, use `--experiment B2|B3` with `--rngs` / `--caches`.
 
-`--validation` 引用独立验证 manifest，并核对 binary SHA256 后才将
-`correctness_passed=True` 写入 CSV；它表示 preflight 已通过，不是每个 timed run
-执行 correctness replay。无 manifest 则留空。不同 RNG 不要求轨迹相同。
-preflight 对现有 dataset 子矩阵及完整 J10000 短轨迹检查线程/warp、Graph、cache、
-register cap、可重复性，并将 local field 与 CPU float64 比较；每个 spin 8192 次
-采样检查 Bernoulli 概率（6×标准误+0.002 容差）。这不等同于证明任意图上的数值等价。
+`--validation` points to a standalone validation manifest; only after checking the binary's SHA256
+does it write `correctness_passed=True` to the CSV. This means the preflight passed, not that every
+timed run did a correctness replay. Without a manifest the column is empty. Different RNGs are not
+required to produce the same trajectory.
+Preflight checks threads/warps, Graph, cache, register cap and reproducibility on submatrices of
+the existing datasets and on short trajectories of the full J10000, and compares the local field
+against CPU float64. Each spin is sampled 8192 times to check the Bernoulli probability
+(tolerance 6× standard error + 0.002). This does not prove numerical equivalence on arbitrary graphs.
 
-Suite 每项保存 `<experiment>.csv`、`<experiment>_aggregated.csv`、`.log`，
-还有 `status.json`、GPU 环境和输入 hash。`skip_experiments.json` 可列出尚未开始的
-实验，例如 `["B2", "B3"]`。profiling 仍应独立执行。
-旧 1000-sweep CSV 和本次 100-sweep、sm_120 结果分开保存，不能合并作为同一配置的重复测量。
+The suite saves `<experiment>.csv`, `<experiment>_aggregated.csv` and `.log` per experiment, plus
+`status.json`, the GPU environment and input hashes. `skip_experiments.json` can list experiments
+that have not started, e.g. `["B2", "B3"]`. Profiling should still be run separately.
+The old 1000-sweep CSVs and these 100-sweep sm_120 results are stored separately and must not be
+merged as repeated measurements of the same configuration.
 
-本次运行中用户将范围缩为仅 J10000，100 sweeps，实验 A1–A5/B1；B2/B3 暂缓。
-后续重跑应使用 `--datasets 10000 --experiments A1 A2 A3 A4 A5 B1`。
+For this run the scope was narrowed to J10000 only, 100 sweeps, experiments A1–A5/B1; B2/B3 are
+deferred. Future reruns should use `--datasets 10000 --experiments A1 A2 A3 A4 A5 B1`.
 
-本次已完成的 J10000 专用 CSV：`results/execution/suite_J10000_100s/`。
-其中 `all_raw.csv` 为 1430 条实际运行记录（含 warmup），`all_aggregated.csv` 为 550 行统计；
-已完成 A1–A5/B1，B2/B3 暂缓。两份合并 CSV 可直接用于后续 pivot 和分析。
+Completed J10000 CSVs from this run: `results/execution/suite_J10000_100s/`.
+`all_raw.csv` holds 1430 actual run records (including warmup) and `all_aggregated.csv` holds
+550 rows of statistics; A1–A5/B1 are done, B2/B3 deferred. Both merged CSVs can be used directly
+for pivoting and analysis.
 
 ## Same-color Nsight profiling: T8 / T128 / W64 / W256
 
@@ -271,11 +288,11 @@ for exact commands, color/launch selection, metric meanings, replay checks, WSL 
 The original A/B timing CSVs are unchanged.
 
 
-### 按最少 wave 自动选 CUDA launch 参数
+### Choosing CUDA launch parameters by minimum waves
 
-`pbit_wave_benchmark` 复用 execution benchmark 的图输入、CPU coloring 和
-模拟流程。默认用实际色类大小 `n_c` 搜索一组全 sweep 共用的 `B`（block
-size）和 `p`（threads/spin）。
+`pbit_wave_benchmark` reuses the execution benchmark's graph input, CPU coloring and simulation
+flow. By default it uses the actual color class sizes `n_c` to search for one `B` (block size)
+and `p` (threads/spin) shared across the whole sweep.
 
 ```bash
 make wave-benchmark
@@ -283,24 +300,25 @@ make wave-benchmark
   --n 10000 --sweeps 100 --history off
 ```
 
-按 [pbit_cuda.pdf](pbit_cuda.pdf) 的式 (1)–(3)，每个色类需要
-`G_c = ceil(n_c / (B/p))` 个 block 和 `W_c = ceil(G_c / (S*R))` 个
-wave。`S` 是 GPU 的 SM 数，`R` 通过 CUDA occupancy API 查询对应
-kernel 在该 block size 下可同时驻留在每个 SM 上的 block 数。
+Following equations (1)–(3) in [pbit_cuda.pdf](pbit_cuda.pdf), each color class needs
+`G_c = ceil(n_c / (B/p))` blocks and `W_c = ceil(G_c / (S*R))` waves. `S` is the GPU's SM
+count, and `R` is the number of blocks of that kernel, at that block size, that can be resident
+on each SM at once, queried via the CUDA occupancy API.
 
-搜索覆盖 `p = 1, 2, 4, …, 1024`。使用 `--whole-warps-only on` 时，
-只搜索 1、2、4、8、16、32 warp/spin。超过一个 warp 时，kernel 用共享内存
-汇总各 warp 的部分和，模型的并列排序沿用 `1/p` 的外推。自动搜索的 block size 为 2 的幂，
-需满足 `B % p == 0` 且至少能驻留一个 block。手动指定 `--threads B`
-时也可使用满足 CUDA 限制和整除条件的其他 block size。先最小化 `sum(W_c)`。并列时按式 (5)–(6) 最小化
-`sum(min(n_c, ceil(G_c/S)*(B/p)) / p)`，再优先选较小的 `B`。
-这是模型预测值，实际 sweep 耗时见输出里的 `time_per_sweep_ms`。
+The search covers `p = 1, 2, 4, …, 1024`. With `--whole-warps-only on`, only 1, 2, 4, 8, 16, 32
+warps/spin are searched. Above one warp, the kernel sums per-warp partial sums in shared memory,
+and the model's tie-breaking extrapolates `1/p`. Auto-searched block sizes are powers of 2, must
+satisfy `B % p == 0` and allow at least one resident block. When `--threads B` is given manually,
+other block sizes that satisfy CUDA limits and the divisibility condition can also be used.
+First `sum(W_c)` is minimized. Ties are broken by minimizing
+`sum(min(n_c, ceil(G_c/S)*(B/p)) / p)` per equations (5)–(6), then by preferring the smaller `B`.
+These are model predictions; the actual sweep time is `time_per_sweep_ms` in the output.
 
-输出 JSON 包含 `block_size`、`threads_per_spin`、`sm_count`、
-`resident_blocks_per_sm`、`waves_per_sweep`，以及按执行顺序列出的
-`color_launches`（每个色类的 spin、block 和 wave 数）。可用
-`--threads B` 或 `--threads-per-spin p` 锁定某一项，另一项仍然自动搜索。
+The output JSON includes `block_size`, `threads_per_spin`, `sm_count`, `resident_blocks_per_sm`,
+`waves_per_sweep`, and `color_launches` in execution order (spins, blocks and waves for each
+color class). Use `--threads B` or `--threads-per-spin p` to fix one of them while the other is
+still searched automatically.
 
-用 `scripts/benchmark_execution.py --experiment A1 --auto-threads
---threads-per-spin 0 --executable executable/pbit_wave_benchmark` 可将
-整数 warp 范围内的自动配置和预测 wave 数写入 CSV。
+Running `scripts/benchmark_execution.py --experiment A1 --auto-threads
+--threads-per-spin 0 --executable executable/pbit_wave_benchmark` writes the automatic
+configuration and predicted wave count within the whole-warp range to CSV.
