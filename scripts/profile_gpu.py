@@ -188,9 +188,9 @@ def main():
     run(['make', 'execution-benchmark'], a.output / 'build.log')
     binary = Path('executable/pbit_execution_benchmark').resolve()
     helper = Path('executable/pbit_color_metadata').resolve()
-    if not helper.exists() or helper.stat().st_mtime < max(Path('cuda/pbit_color_metadata.cu').stat().st_mtime, Path('cuda/pbit_coloring_benchmark.cu').stat().st_mtime):
+    if not helper.exists() or helper.stat().st_mtime < max(Path('cuda/test_benchmark/pbit_color_metadata.cu').stat().st_mtime, Path('cuda/pbit_coloring.cuh').stat().st_mtime):
         run(['/usr/local/cuda-13.4/bin/nvcc', '-O3', '-std=c++17', '-arch=sm_120', '-lineinfo', '-I.',
-             'cuda/pbit_color_metadata.cu', '-o', str(helper)], a.output / 'metadata_build.log')
+             'cuda/test_benchmark/pbit_color_metadata.cu', '-o', str(helper)], a.output / 'metadata_build.log')
     run(['/usr/local/cuda-13.4/bin/cuobjdump', '--dump-resource-usage', str(binary)], a.output / 'compiler_resources.txt')
     run(['/usr/local/cuda-13.4/bin/cuobjdump', '--dump-elf-symbols', str(binary)], a.output / 'kernel_symbols.txt')
     # Record actual WSL driver/PTX loader resolution in this very process.

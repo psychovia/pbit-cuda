@@ -1,7 +1,7 @@
 // CPU-only metadata tool: use exactly the simulator's coloring implementation.
-#define main legacy_simulator_main
-#include "pbit_coloring_benchmark.cu"
-#undef main
+#include <cstdio>
+#include <cstdlib>
+#include "../pbit_coloring.cuh"
 
 int main(int argc, char** argv) {
     int n = atoi(argv[2]);

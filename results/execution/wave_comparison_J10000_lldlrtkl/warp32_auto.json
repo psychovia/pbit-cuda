@@ -1,0 +1,39 @@
+{
+  "num_pbits": 10000,
+  "num_colors": 4,
+  "coloring_ms": 229.068305,
+  "transfer_ms": 50.592191,
+  "simulation_ms": 57.61958313,
+  "time_per_sweep_ms": 1.152391672,
+  "graph_setup_ms": 0.0,
+  "math_mode": "default",
+  "rng_algorithm": "xorwow",
+  "register_cap": 0,
+  "block_size": 64,
+  "threads_per_spin": 32,
+  "sm_count": 26,
+  "resident_blocks_per_sm": 24,
+  "waves_per_sweep": 12,
+  "color_launches": [
+    {
+      "spins": 2500,
+      "blocks": 1250,
+      "waves": 3
+    },
+    {
+      "spins": 2500,
+      "blocks": 1250,
+      "waves": 3
+    },
+    {
+      "spins": 2500,
+      "blocks": 1250,
+      "waves": 3
+    },
+    {
+      "spins": 2500,
+      "blocks": 1250,
+      "waves": 3
+    }
+  ]
+}

@@ -14,20 +14,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <cuda_runtime.h>
-#include <curand_kernel.h>
+#include "../pbit_rng.cuh"
 
 
-
-__global__ void init_rng(curandState* states, unsigned long seed, int n_pbits) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
-
-    if (i < n_pbits) {
-        curand_init(seed, i, 0, &states[i]);
-    }
-}
-
-
+// sigmoid variant indexing a padded 2D color table; differs from the shared update_pbit
 __global__ void update_pbit(int* m, const float* J, const float* h, curandState* states,
                             const int* colors, int color, int n_nodes_in_color, int max_color_size,
                             int n_pbits, float beta) {

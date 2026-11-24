@@ -32,7 +32,13 @@ COLORING:
 
 ## Files
 
-- `cuda/`: CUDA source; main benchmark: `pbit_coloring_benchmark.cu`.
+- `cuda/`: shared CUDA code, included by every program:
+  - `pbit_rng.cuh`: RNG state type (`EXEC_RNG`) and `init_rng`.
+  - `pbit_kernels.cuh`: `update_pbit`, `update_pbit_execution<p>`, `update_pbit_multiwarp<p>`.
+  - `pbit_coloring.cuh`: CPU colorings (greedy, ldf, random, smallest_last, dsatur), `color_graph`, and `cugraph_coloring` (with `USE_CUGRAPH`).
+  - `pbit_simulation.cuh`: shared benchmark flow (options, J/h loading, GPU buffers, timed sweeps, JSON/output).
+  - `pbit_launch.cuh`: wave-minimizing choice of threads/spin and threads/block.
+- `cuda/test_benchmark/`: the programs (`main`), e.g. `pbit_coloring_benchmark.cu`, `pbit_execution_benchmark.cu`, `pbit_wave_benchmark.cu`.
 - `scripts/`: graph preparation, plotting, and benchmark runners.
 - `pbit-graphs/`: coupling matrices `J` and bias vectors `h`.
 - `executable/`: compiled programs and generated graph inputs.
@@ -59,7 +65,7 @@ python scripts/prepare_graph.py \
   '-DGRAPH_HEADER="executable/graph_10000.h"' \
   -DCOLORING_FUNCTION=largest_degree_first_coloring \
   -DBETA=1.5f \
-  cuda/pbit_coloring_benchmark.cu \
+  cuda/test_benchmark/pbit_coloring_benchmark.cu \
   -o executable/pbit_ldf_J10000_b_1.5
 
 # Save final spins: one -1/+1 value per line.
@@ -119,7 +125,7 @@ python scripts/benchmark_runs.py executable/pbit_coloring_ldf_sparse --repeats 1
 
 ## GPU execution benchmark：第一阶段 A1 / A2
 
-保留旧 simulator 和旧 runner，新增 `cuda/pbit_execution_benchmark.cu`，直接复用
+保留旧 simulator 和旧 runner，新增 `cuda/test_benchmark/pbit_execution_benchmark.cu`，直接复用
 原有 `init_rng`、`update_pbit` 和 CPU coloring 函数。dense row-major float32 J/h
 及按 color 串行启动的 colored-Gibbs 顺序不变。暂不使用 cuGraph。
 
@@ -203,7 +209,7 @@ two-warps-per-spin、fusion 保留为 future work。
 
 ## A1–A5 / B1 扩展与短实验
 
-新增 `pbit_execution_kernels.cuh` 保留原 one-thread kernel，并提供 warp-per-spin：
+`cuda/pbit_kernels.cuh`（原 `pbit_execution_kernels.cuh`）保留原 one-thread kernel，并提供 warp-per-spin：
 32 lanes 按 j=lane, lane+32, ... 累加 J row，shuffle reduction 后仅 lane 0 更新
 该 p-bit 的 RNG state 和 spin。threads/block 必须是 32 的倍数；8/16 的 warp 配置跳过。
 所有 color 仍在单个 stream 上依次执行，没有并发 streams 或 kernel fusion。
@@ -263,3 +269,38 @@ Then append T128/W256 only after checking smoke success. The completed reports, 
 are under `results/profiling/J10000_color/`. See [GPU profiling instructions](docs/gpu_profiling.md)
 for exact commands, color/launch selection, metric meanings, replay checks, WSL libraries and unavailable fields.
 The original A/B timing CSVs are unchanged.
+
+
+### 按最少 wave 自动选 CUDA launch 参数
+
+`pbit_wave_benchmark` 复用 execution benchmark 的图输入、CPU coloring 和
+模拟流程。默认用实际色类大小 `n_c` 搜索一组全 sweep 共用的 `B`（block
+size）和 `p`（threads/spin）。
+
+```bash
+make wave-benchmark
+./executable/pbit_wave_benchmark --data executable/graph_10000.bin \
+  --n 10000 --sweeps 100 --history off
+```
+
+按 [pbit_cuda.pdf](pbit_cuda.pdf) 的式 (1)–(3)，每个色类需要
+`G_c = ceil(n_c / (B/p))` 个 block 和 `W_c = ceil(G_c / (S*R))` 个
+wave。`S` 是 GPU 的 SM 数，`R` 通过 CUDA occupancy API 查询对应
+kernel 在该 block size 下可同时驻留在每个 SM 上的 block 数。
+
+搜索覆盖 `p = 1, 2, 4, …, 1024`。使用 `--whole-warps-only on` 时，
+只搜索 1、2、4、8、16、32 warp/spin。超过一个 warp 时，kernel 用共享内存
+汇总各 warp 的部分和，模型的并列排序沿用 `1/p` 的外推。自动搜索的 block size 为 2 的幂，
+需满足 `B % p == 0` 且至少能驻留一个 block。手动指定 `--threads B`
+时也可使用满足 CUDA 限制和整除条件的其他 block size。先最小化 `sum(W_c)`。并列时按式 (5)–(6) 最小化
+`sum(min(n_c, ceil(G_c/S)*(B/p)) / p)`，再优先选较小的 `B`。
+这是模型预测值，实际 sweep 耗时见输出里的 `time_per_sweep_ms`。
+
+输出 JSON 包含 `block_size`、`threads_per_spin`、`sm_count`、
+`resident_blocks_per_sm`、`waves_per_sweep`，以及按执行顺序列出的
+`color_launches`（每个色类的 spin、block 和 wave 数）。可用
+`--threads B` 或 `--threads-per-spin p` 锁定某一项，另一项仍然自动搜索。
+
+用 `scripts/benchmark_execution.py --experiment A1 --auto-threads
+--threads-per-spin 0 --executable executable/pbit_wave_benchmark` 可将
+整数 warp 范围内的自动配置和预测 wave 数写入 CSV。

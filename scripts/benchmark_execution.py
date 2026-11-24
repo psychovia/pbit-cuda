@@ -46,7 +46,10 @@ def main():
     p.add_argument('--experiment', choices=['A1', 'A2', 'A3', 'A4', 'A5', 'B1', 'B2', 'B3'], default='A1')
     p.add_argument('--datasets', nargs='+', default=['10000'], help='Existing J_<name>.npy or J .npy paths')
     p.add_argument('--h', type=Path, help='Explicit bias file; only with one dataset')
-    p.add_argument('--threads', nargs='+', type=int, default=[32, 64, 128, 256, 512, 1024])
+    block_sizes = p.add_mutually_exclusive_group()
+    block_sizes.add_argument('--threads', nargs='+', type=int, default=[32, 64, 128, 256, 512, 1024])
+    block_sizes.add_argument('--auto-threads', action='store_true',
+                            help='A1 with a wave benchmark executable that selects its block size')
     p.add_argument('--rng-threads', type=int, default=128)
     p.add_argument('--history', choices=['on', 'off'], default='on', help='A1 only; A2 always measures both')
     p.add_argument('--sweeps', type=int, default=100)
@@ -57,13 +60,22 @@ def main():
     p.add_argument('--repeats', type=int, default=10)
     p.add_argument('--executable', type=Path, default=Path('executable/pbit_execution_benchmark'))
     p.add_argument('--launch', choices=['normal', 'graph'], default='normal')
-    p.add_argument('--threads-per-spin', type=int, choices=[1, 32], default=1)
+    p.add_argument('--threads-per-spin', type=int, choices=[0, 1, 32, 64, 128, 256, 512, 1024], default=1,
+                   help='0 searches whole-warp group widths with --auto-threads')
     p.add_argument('--cache', choices=['default', 'ldg', 'cg'], default='default')
     p.add_argument('--rngs', nargs='+', choices=['xorwow', 'philox', 'mrg32k3a'], default=['xorwow', 'philox', 'mrg32k3a'])
     p.add_argument('--caches', nargs='+', choices=['default', 'ldg', 'cg'], default=['default', 'ldg', 'cg'])
     p.add_argument('--validation', type=Path, help='Optional external validation manifest')
     p.add_argument('--csv', type=Path, required=True)
     args = p.parse_args()
+    if args.auto_threads and args.experiment != 'A1':
+        p.error('--auto-threads requires --experiment A1')
+    if args.threads_per_spin == 0 and not args.auto_threads:
+        p.error('--threads-per-spin 0 requires --auto-threads')
+    if args.threads_per_spin > 32 and args.experiment != 'A1':
+        p.error('Multiple warps per spin require --experiment A1 and a wave benchmark executable')
+    candidate_threads = [None] if args.auto_threads else list(dict.fromkeys(args.threads))
+    extra_config = ['waves_per_sweep'] if args.auto_threads else []
     schedule = args.csv.parent / 'skip_experiments.json'
     if schedule.exists() and args.experiment in json.loads(schedule.read_text()):
         print(f'Skipped {args.experiment}: excluded from the suite schedule', flush=True)
@@ -80,9 +92,9 @@ def main():
         p.error('Output exists; choose a new --csv path')
     args.csv.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='pbit-benchmark-') as tmp, args.csv.open('x', newline='') as raw, summary.open('x', newline='') as agg:
-        writer = csv.DictWriter(raw, fieldnames=FIELDS)
+        writer = csv.DictWriter(raw, fieldnames=FIELDS + extra_config)
         writer.writeheader()
-        sw = csv.DictWriter(agg, fieldnames=CONFIG + ['runs', 'metric', 'mean', 'median', 'std', 'min', 'max', 'correctness_passed'])
+        sw = csv.DictWriter(agg, fieldnames=CONFIG + extra_config + ['runs', 'metric', 'mean', 'median', 'std', 'min', 'max', 'correctness_passed'])
         sw.writeheader()
         for dataset in dict.fromkeys(args.datasets):
             selection = args.csv.parent / 'dataset_selection.json'
@@ -105,10 +117,10 @@ def main():
                 h.tofile(f)
             print(f'Dataset {jp.resolve()}, h={hp.resolve() if hp.exists() else "zeros"}', flush=True)
             variants = experiment_variants(args)
-            for threads, variant in itertools.product(dict.fromkeys(args.threads), variants):
+            for threads, variant in itertools.product(candidate_threads, variants):
                 history, launch, mapping, cache, binary = variant
-                if mapping == 32 and (threads < 32 or threads % 32):
-                    print(f'Skip tpb={threads}, threads/spin=32: complete warps required', flush=True)
+                if threads is not None and threads % mapping != 0:
+                    print(f'Skip tpb={threads}, threads/spin={mapping}: complete spin groups required', flush=True)
                     continue
                 rows = []
                 config = dict(experiment=args.experiment, dataset=str(jp.resolve()), coloring_algorithm=args.coloring,
@@ -117,9 +129,13 @@ def main():
                               register_cap='', cache_policy=cache, sweeps=args.sweeps, beta=args.beta, seed=args.seed)
                 for index in range(args.warmup + args.repeats):
                     cmd = [str(binary.resolve()), '--data', str(data), '--n', str(len(h)), '--sweeps', str(args.sweeps),
-                           '--threads', str(threads), '--rng-threads', str(args.rng_threads), '--coloring', args.coloring,
+                           '--rng-threads', str(args.rng_threads), '--coloring', args.coloring,
                            '--history', history, '--beta', str(args.beta), '--seed', str(args.seed),
                            '--launch', launch, '--threads-per-spin', str(mapping), '--cache', cache]
+                    if mapping == 0:
+                        cmd.extend(['--whole-warps-only', 'on'])
+                    if threads is not None:
+                        cmd.extend(['--threads', str(threads)])
                     result = subprocess.run(cmd, capture_output=True, text=True)
                     if result.returncode:
                         raise RuntimeError(f"Benchmark failed ({result.returncode}): {result.stderr}\n{result.stdout}")
@@ -129,6 +145,16 @@ def main():
                     config.update(num_pbits=metrics['num_pbits'], num_colors=metrics['num_colors'],
                                   math_mode=metrics['math_mode'], rng_algorithm=metrics['rng_algorithm'],
                                   register_cap=metrics['register_cap'] or '')
+                    if mapping > 32 and metrics.get('threads_per_spin') != mapping:
+                        raise ValueError('Multiple warps per spin require the wave benchmark executable')
+                    if args.auto_threads:
+                        selected = (metrics['block_size'], metrics['threads_per_spin'], metrics['waves_per_sweep'])
+                        valid_mapping = selected[1] == mapping if mapping else selected[1] >= 32 and selected[1] % 32 == 0
+                        if not valid_mapping or (index and selected != previous_selection):
+                            raise ValueError(f'Unexpected automatic launch selection: {selected}')
+                        previous_selection = selected
+                        config.update(threads_per_block=selected[0], threads_per_spin=selected[1],
+                                      waves_per_sweep=selected[2])
                     passed = ''
                     if validation:
                         entry = validation['experiments'][args.experiment]
@@ -141,7 +167,7 @@ def main():
                     raw.flush()
                     if phase == 'measurement':
                         rows.append(row)
-                    print(f'{dataset} tpb={threads} history={history} launch={launch} mapping={mapping} binary={binary.name} cache={cache} {phase} {row["run_id"]}: {metrics["time_per_sweep_ms"]:.6f} ms/sweep', flush=True)
+                    print(f"{dataset} tpb={config['threads_per_block']} history={history} launch={launch} mapping={config['threads_per_spin']} binary={binary.name} cache={cache} {phase} {row['run_id']}: {metrics["time_per_sweep_ms"]:.6f} ms/sweep", flush=True)
                 for metric in METRICS:
                     values = [r[metric] for r in rows]
                     sw.writerow(dict(config, runs=len(rows), metric=metric, mean=statistics.mean(values), median=statistics.median(values),

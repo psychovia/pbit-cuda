@@ -27,7 +27,7 @@ def main():
                  sweeps=a.sweeps, warmup=a.warmup, repeats=a.repeats, validation=str(a.validation.resolve()),
                  completed=[], current=None, status='running', commands={})
     state['build_arch'] = 'sm_120'
-    state['source_sha256'] = {str(f): hashlib.sha256(f.read_bytes()).hexdigest() for f in [Path('cuda/pbit_execution_benchmark.cu'), Path('cuda/pbit_execution_kernels.cuh'), Path('scripts/benchmark_execution.py')]}
+    state['source_sha256'] = {str(f): hashlib.sha256(f.read_bytes()).hexdigest() for f in [Path('cuda/test_benchmark/pbit_execution_benchmark.cu'), *sorted(Path('cuda').glob('*.cuh')), Path('scripts/benchmark_execution.py')]}
     state['dataset_sha256'] = {d: hashlib.sha256((Path('pbit-graphs') / f'J_{d}.npy').read_bytes()).hexdigest() for d in a.datasets}
     gpu = subprocess.run(['nvidia-smi', '-q'], capture_output=True, text=True)
     (a.output / 'gpu_environment.txt').write_text(gpu.stdout + gpu.stderr)

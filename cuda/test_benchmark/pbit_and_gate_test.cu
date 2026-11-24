@@ -1,14 +1,5 @@
 #include <stdio.h>
-#include <cuda_runtime.h>
-#include <curand_kernel.h>
-
-__global__ void init_rng(curandState* states, unsigned long seed, int n_pbits ) {
-    int i = blockIdx.x * blockDim.x + threadIdx.x;
-
-    if (i < n_pbits) {
-        curand_init(seed, i, 0, &states[i]);
-    }
-}
+#include "../pbit_rng.cuh"
 
 
 __global__ void update_one_pbit(int* m, const float* J, const float* h, curandState* states,

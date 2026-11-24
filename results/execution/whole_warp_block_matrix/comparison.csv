@@ -1,0 +1,4 @@
+graph,num_pbits,num_colors,fastest_block_size,fastest_warps_per_spin,fastest_ms_per_sweep,auto_block_size,auto_warps_per_spin,auto_waves_per_sweep,auto_cell_ms_per_sweep,auto_run_ms_per_sweep,auto_cell_slowdown_pct,matches_fastest
+J_10000,10000,4,256,4,1.126883864,64,1,12,1.141743422,1.139779568,1.319,False
+J_dense,444,5,256,8,0.035190079,256,8,5,0.035190079,0.035329279,0.000,True
+J_sparse,1188,5,64,2,0.037976,64,2,5,0.037976,0.038553599,0.000,True

@@ -9,6 +9,9 @@ LIB_FLAGS = -I "$(CONDA_PREFIX)/include" -L "$(CONDA_PREFIX)/lib" \
 	-Xlinker -rpath -Xlinker "$(CONDA_PREFIX)/lib" \
 	-lcugraph -lrmm -lcusolver -lcublas
 
+SRC = cuda/test_benchmark
+HEADERS = $(wildcard cuda/*.cuh)
+
 ALGORITHMS = greedy ldf random smallest_last dsatur cugraph
 GRAPHS = sparse dense
 VERSIONS = $(foreach graph,$(GRAPHS),$(foreach algo,$(ALGORITHMS),executable/pbit_coloring_$(algo)_$(graph)))
@@ -26,7 +29,7 @@ executable/graph_%.h: pbit-graphs/J_%.npy pbit-graphs/h_%.npy scripts/prepare_gr
 
 # Each CPU algorithm shares the original main() and selects one function.
 define CPU_RULE
-executable/pbit_coloring_$(1)_%: cuda/pbit_coloring_benchmark.cu executable/graph_%.h Makefile
+executable/pbit_coloring_$(1)_%: $(SRC)/pbit_coloring_benchmark.cu $(HEADERS) executable/graph_%.h Makefile
 	$$(NVCC) $$(CPU_FLAGS) '-DGRAPH_HEADER="executable/graph_$$*.h"' \
 		-DCOLORING_FUNCTION=$(2) $$< -o $$@
 endef
@@ -37,7 +40,7 @@ $(eval $(call CPU_RULE,random,random_coloring))
 $(eval $(call CPU_RULE,smallest_last,smallest_last_coloring))
 $(eval $(call CPU_RULE,dsatur,dsatur_coloring))
 
-executable/pbit_coloring_cugraph_%: cuda/pbit_coloring_benchmark.cu executable/graph_%.h Makefile
+executable/pbit_coloring_cugraph_%: $(SRC)/pbit_coloring_benchmark.cu $(HEADERS) executable/graph_%.h Makefile
 	$(NVCC) $(CUGRAPH_FLAGS) '-DGRAPH_HEADER="executable/graph_$*.h"' \
 		$< $(LIB_FLAGS) -o $@
 
@@ -55,13 +58,12 @@ EXEC_FLAGS = -arch=$(EXEC_ARCH) -lineinfo -Xptxas=-v
 # Runtime-configurable CPU-coloring execution benchmark; legacy targets unchanged.
 .PHONY: execution-benchmark
 execution-benchmark: executable/pbit_execution_benchmark
-executable/pbit_execution_benchmark: cuda/pbit_execution_benchmark.cu cuda/pbit_coloring_benchmark.cu Makefile
+executable/pbit_execution_benchmark: $(SRC)/pbit_execution_benchmark.cu $(HEADERS) Makefile
 	@mkdir -p executable
 	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) $< -o $@
 
 # Separate binaries for options that change generated device code.
-EXEC_DEPS = cuda/pbit_execution_benchmark.cu cuda/pbit_execution_kernels.cuh cuda/pbit_coloring_benchmark.cu Makefile
-executable/pbit_execution_benchmark: cuda/pbit_execution_kernels.cuh
+EXEC_DEPS = $(SRC)/pbit_execution_benchmark.cu $(HEADERS) Makefile
 
 .PHONY: execution-variants
 execution-variants: execution-benchmark executable/pbit_execution_fast \
@@ -82,11 +84,18 @@ executable/pbit_execution_mrg32k3a: $(EXEC_DEPS)
 
 .PHONY: execution-probes
 execution-probes: executable/pbit_probe executable/pbit_probe_fast executable/pbit_probe_philox executable/pbit_probe_mrg32k3a
-executable/pbit_probe: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+PROBE_DEPS = $(SRC)/pbit_execution_probe.cu $(HEADERS) Makefile
+executable/pbit_probe: $(PROBE_DEPS)
 	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) $< -o $@
-executable/pbit_probe_fast: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+executable/pbit_probe_fast: $(PROBE_DEPS)
 	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) --use_fast_math $< -o $@
-executable/pbit_probe_philox: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+executable/pbit_probe_philox: $(PROBE_DEPS)
 	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) -DEXEC_RNG=1 $< -o $@
-executable/pbit_probe_mrg32k3a: cuda/pbit_execution_probe.cu $(EXEC_DEPS)
+executable/pbit_probe_mrg32k3a: $(PROBE_DEPS)
 	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) -DEXEC_RNG=2 $< -o $@
+
+.PHONY: wave-benchmark
+wave-benchmark: executable/pbit_wave_benchmark
+executable/pbit_wave_benchmark: $(SRC)/pbit_wave_benchmark.cu $(HEADERS) Makefile
+	@mkdir -p executable
+	$(NVCC) $(CPU_FLAGS) $(EXEC_FLAGS) $< -o $@

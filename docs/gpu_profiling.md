@@ -23,7 +23,7 @@ The completed run is `results/profiling/J10000_color/`. Its machine discovery is
 
 All four runs use existing `J_10000.npy`, zero h, CPU Largest Degree First, beta=1, XORWOW seed=1234, RNG initialization block=128, all initial spins=-1, history on, default math, no register cap, default J loads, normal launch, and 100 sweeps. Build remains `-O3 -std=c++17 -arch=sm_120 -lineinfo`.
 
-A separate CPU-only metadata helper, `cuda/pbit_color_metadata.cu`, reuses the original coloring functions. It does not run a simulation. All four LDF groups contain 2500 nodes. The default selects the largest group (smallest color index on ties), hence **color 0**. Colors are zero-based; `colors.json` records all groups.
+A separate CPU-only metadata helper, `cuda/test_benchmark/pbit_color_metadata.cu`, reuses the original coloring functions. It does not run a simulation. All four LDF groups contain 2500 nodes. The default selects the largest group (smallest color index on ties), hence **color 0**. Colors are zero-based; `colors.json` records all groups.
 
 The selected kernel is color 0 in **sweep index 2** (third sweep). After filtering only the exact mangled update symbol, `--launch-skip 8` skips two complete sweeps of four colors. `--launch-count 1` captures the next update. Previous colors/sweeps execute normally; none are removed or reordered.
 
