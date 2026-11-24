@@ -7,3 +7,12 @@ executable/
 # Local environment installer
 Miniforge3-Linux-x86_64.sh
 /results/profiling/discovery/metrics_all.txt
+
+# Run outputs (results, csv, logs, binary dumps)
+results/
+*.csv
+*.log
+*.bin
+
+# Windows download metadata
+*Zone.Identifier

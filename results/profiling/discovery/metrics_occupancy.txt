@@ -1,8 +1,0 @@
-Device NVIDIA GeForce RTX 5060 Laptop GPU (GB206)
---------------------------------------------------------------------------- --------------- --------------- -------------------------------
-Metric Name                                                                 Metric Type     Metric Unit     Metric Description             
---------------------------------------------------------------------------- --------------- --------------- -------------------------------
-sm__maximum_warps_avg_per_active_cycle                                      Counter         warp            Theoretical Active Warps Per SM
-sm__maximum_warps_per_active_cycle_pct                                      Throughput      %               Theoretical Occupancy          
-smsp__maximum_warps_avg_per_active_cycle                                    Counter         warp            Theoretical Warps Per Scheduler
-

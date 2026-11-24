@@ -1,3 +1,0 @@
-Full local metric query (135 MB): /tmp/pbit_ncu_query_phase1_gpu/query.txt
-GPU: NVIDIA GeForce RTX 5060 Laptop GPU (GB206)
-See ncu_availability.csv for the requested subset.
